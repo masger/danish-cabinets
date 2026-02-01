@@ -1,0 +1,100 @@
+---
+title: "R Danske ministerier"
+output: html_notebook
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+***
+# Regeringer
+
+```{r}
+regeringer_total_long_stats
+```
+***
+# Overlevelse
+
+```{r, ministeroverlevelse}
+g1 = ggsurvplot(
+  km0,
+  risk.table = TRUE,
+  xlim = c(0, 4),
+  break.time.by = 0.5, 
+  ylab = "Sandsynlighed for at være minister",
+  xlab = "Tid siden ansættelse"
+)
+g1[1]$plot
+```
+# Overlevelse for regeringer efter 1945
+
+```{r, ministeroverlevel45}
+temp = regeringer_total_long[start > dmy(01011945)]
+km0 <-
+  survival::survfit(Surv(time = time, event = early) ~ 1, data = temp)
+g2 = ggsurvplot(
+  km0,
+  risk.table = TRUE,
+  xlim = c(0, 4),
+  break.time.by = 0.5, 
+  ylab = "Sandsynlighed for at være minister",
+  xlab = "Tid siden ansættelse"
+)
+g2[1]$plot
+
+```
+***
+# Data for overlevelsesanalyse
+
+```{r}
+reg_lexis
+```
+***
+# Overlevelsesanalyse
+
+Poisson model med tidlig afgang som outcome ministerpost og årstal som covariate og ministernavn som random effect.
+
+```{r}
+
+cols = c("ministerpost_nr_post", "observations", "events", "pyrs", "inci", 
+"estimate" ,"conf.low","conf.high","p.value")
+total[order(-events), ..cols]
+```
+Samme model men udelukkende for socicaldemokratiske regeringer
+
+```{r}
+
+red[order(-events), ..cols]
+```
+Samme model men udelukkende for ikke-socialdemokratiske regeringer
+```{r}
+
+blue[order(-events), ..cols]
+```
+
+***
+
+## Forrest plot
+
+```{r, forrestplot}
+g3 = ggplot(redblue[ministerpost_nr_post %in% danger]) +
+  geom_linerange(
+    aes(
+      x = ministerpost_nr_post,
+      y = estimate,
+      col = farve,
+      ymin = conf.low,
+      ymax = conf.high
+    ),
+    position = position_dodge(width = 1),
+    size = 1.5
+  ) +
+  scale_y_log10() +
+  coord_flip()  + 
+  ggsci::scale_color_jama() + 
+  geom_hline(yintercept = 1)
+g3
+
+```
+
