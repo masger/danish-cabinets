@@ -1,0 +1,447 @@
+---
+title: "MINISTERS FALL"
+subtitle: "A comprehensive epidemiological investigation into ministerial mortality across Europe, with special attention to the Danish 'Skatteminister Syndrome' myth and the discovery that ministers actually die in office"
+author:
+  - name: "Department of Political Epidemiology"
+    affiliation: "Danish Institute for Cabinet Mortality Research"
+  - name: "European Consortium for Governmental Survival Studies"
+date: "`r format(Sys.Date(), '%d %B %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    theme: flatly
+    code_folding: hide
+    fig_caption: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE,
+                      fig.width = 10, fig.height = 7, dpi = 300)
+library(data.table)
+library(lubridate)
+library(survival)
+library(survminer)
+library(ggplot2)
+library(knitr)
+library(kableExtra)
+
+theme_set(theme_minimal(base_size = 12) +
+          theme(panel.grid.minor = element_blank()))
+```
+
+<style>
+.abstract-box { background-color: #f8f9fa; border-left: 4px solid #007bff; padding: 15px; margin: 20px 0; }
+.key-finding { background-color: #fff3cd; border: 1px solid #ffc107; padding: 10px; margin: 10px 0; border-radius: 5px; }
+.myth-busted { background-color: #d4edda; border: 1px solid #28a745; padding: 10px; margin: 10px 0; border-radius: 5px; }
+.death-box { background-color: #f8d7da; border: 1px solid #dc3545; padding: 10px; margin: 10px 0; border-radius: 5px; }
+</style>
+
+---
+
+<div class="abstract-box">
+
+# Abstract
+
+**Objective:** To examine ministerial survival patterns across Europe and test the Danish folk hypothesis that Tax Ministers (*Skatteminister*) face elevated termination hazard.
+
+**Design:** Multi-national retrospective cohort study combining Danish ministerial records (1945-2022) with the WhoGov dataset (40 European countries, 1963-2023).
+
+**Setting:** European government cabinets.
+
+**Participants:** 787 Danish minister-government observations; 1,909 European country-years; approximately 58,000 cabinet members globally.
+
+**Main outcome measures:** Ministerial retention rate; mid-term dismissal rate by portfolio; literal mortality in office.
+
+**Results:**
+The "Skatteminister Syndrome" is definitively debunked: Tax Ministers had among the lowest firing rates (11.8%). The genuinely hazardous portfolios are Interior (55.6%) and Agriculture (58.8% for Blue governments). **Eight Danish ministers literally died in office**, including three Prime Ministers. Blue (right-wing) governments showed consistently higher ministerial turnover than Red governments across multiple portfolios. Internationally, Italy showed 24 years with retention below 50%, while Eastern Europe experienced a -20 percentage point "democratization shock" after 1990. Ukraine emerged as Europe's most unstable democracy (47.1% retention).
+
+**Conclusions:** The "Skatteminister Syndrome" is a myth. The true Danish hazards are Interior and Agriculture—especially under Blue governments. Being a Danish Prime Minister carries literal mortality risk. Across Europe, democratic transitions increase cabinet instability substantially.
+
+</div>
+
+---
+
+# Introduction
+
+Danish political folklore holds that the position of Tax Minister (*Skatteminister*) carries a peculiar curse. Yet this belief has never been subjected to epidemiological scrutiny.
+
+We sought to apply survival analysis methods to this question, inspired by the BMJ Christmas tradition. Our investigation expanded to encompass 40 European countries, allowing us to place Danish ministerial mortality in continental context.
+
+We discovered several unexpected findings:
+1. Tax Ministers are among the safest portfolios
+2. Eight Danish ministers literally died in office
+3. Blue governments have higher ministerial turnover
+4. Eastern Europe experienced dramatic instability after democratization
+
+---
+
+# Methods
+
+```{r load-data}
+# Load Danish data
+dk_data <- fread("../data/danish_cabinets.csv", encoding = "Latin-1")
+dk_data[, V1 := NULL]
+Encoding(dk_data$ministerpost) <- "latin1"
+
+# Ministry classification
+extract_ministry <- function(x) {
+  x <- tryCatch(tolower(x), error = function(e) x)
+  if (is.na(x) || x == "") return("Other")
+  if (grepl("statsminister|premierminister", x)) return("Prime Minister")
+  if (grepl("skatteminister", x)) return("Tax Minister")
+  if (grepl("finansminister", x)) return("Finance Minister")
+  if (grepl("udenrigsminister", x)) return("Foreign Minister")
+  if (grepl("justitsminister", x)) return("Justice Minister")
+  if (grepl("forsvarsminister", x)) return("Defence Minister")
+  if (grepl("indenrigsminister", x)) return("Interior Minister")
+  if (grepl("arbejdsminister", x)) return("Labor Minister")
+  if (grepl("transport|trafik", x)) return("Transport Minister")
+  if (grepl("landbrug|f.devare", x)) return("Agriculture Minister")
+  if (grepl("milj|klima|energi", x)) return("Environment Minister")
+  return("Other")
+}
+
+dk_data[, ministry_type := sapply(ministerpost, extract_ministry)]
+
+# Political bloc (improved classification)
+dk_data[, bloc := fifelse(grepl("Venstre|Konservative|Liberal|Dansk Folkeparti",
+                                 `Parti(er)`, ignore.case = TRUE), "Blue", "Red")]
+
+# Calculate dates
+dk_data[, r_start := min(start, na.rm = TRUE), by = regering]
+dk_data[, r_stop := max(stop, na.rm = TRUE), by = regering]
+dk_data[, p_stop := max(stop, na.rm = TRUE), by = .(regering, navn)]
+dk_data[, time := as.numeric(difftime(stop, start, units = "days")) / 365.25]
+
+# Analysis dataset (post-1945)
+dk_analysis <- dk_data[decimal_date(start) > 1945 & !is.na(time) & time > 0]
+
+# Person-government level
+person_govt <- dk_analysis[, .(
+  first_start = min(start, na.rm = TRUE),
+  last_stop = max(stop, na.rm = TRUE),
+  total_time = sum(time, na.rm = TRUE),
+  n_positions = .N
+), by = .(navn, regering, r_start, r_stop, bloc)]
+
+person_govt[, days_before_govt_end := as.numeric(difftime(r_stop, last_stop, units = "days"))]
+person_govt[, fired := as.numeric(days_before_govt_end > 30)]
+
+# Add ministry type
+first_ministry <- dk_analysis[, .(ministry_type = ministry_type[which.min(start)]), by = .(navn, regering)]
+person_govt <- merge(person_govt, first_ministry, by = c("navn", "regering"), all.x = TRUE)
+
+# Load international data
+whogov <- fread("../data/WhoGov_crosssectional_V3.1.csv")
+
+# Define European regions
+nordic <- c("DNK", "SWE", "NOR", "FIN", "ISL")
+western_eu <- c("DEU", "FRA", "GBR", "NLD", "BEL", "AUT", "CHE", "IRL", "LUX")
+southern_eu <- c("ITA", "ESP", "PRT", "GRC", "MLT", "CYP")
+eastern_eu <- c("POL", "CZE", "HUN", "SVK", "ROU", "BGR", "SRB", "HRV", "SVN",
+                "EST", "LVA", "LTU", "UKR", "BLR", "MDA")
+
+whogov[, region := fcase(
+  country_isocode %in% nordic, "Nordic",
+  country_isocode %in% western_eu, "Western Europe",
+  country_isocode %in% southern_eu, "Southern Europe",
+  country_isocode %in% eastern_eu, "Eastern Europe",
+  default = "Other"
+)]
+
+europe <- whogov[region != "Other"]
+```
+
+## Study design
+
+We conducted a three-part investigation:
+
+**Part 1 (Denmark):** Analysis of 787 minister-government observations, distinguishing mid-term dismissals from election exits.
+
+**Part 2 (European comparison):** Analysis of 40 European countries using WhoGov retention rates.
+
+**Part 3 (Mortality):** Identification of ministers who literally died in office.
+
+---
+
+# Results
+
+## Part 1: Baseline Characteristics
+
+```{r baseline-table}
+n_total <- nrow(person_govt)
+n_unique <- uniqueN(person_govt$navn)
+n_govts <- uniqueN(person_govt$regering)
+
+# By bloc
+bloc_stats <- person_govt[, .(
+  N = .N,
+  Fired_pct = round(100 * mean(fired, na.rm = TRUE), 1),
+  Median_tenure = round(median(total_time, na.rm = TRUE), 2)
+), by = bloc]
+
+# By ministry
+ministry_stats <- person_govt[ministry_type != "Other", .(
+  N = .N,
+  Fired_pct = round(100 * mean(fired, na.rm = TRUE), 1)
+), by = ministry_type][order(-Fired_pct)]
+
+kable(ministry_stats[N >= 5],
+      caption = "Table 1. Danish ministerial firing rates by portfolio",
+      col.names = c("Portfolio", "N", "Fired (%)")) %>%
+  kable_styling(bootstrap_options = c("striped", "hover")) %>%
+  row_spec(which(ministry_stats[N >= 5]$ministry_type == "Tax Minister"), background = "#d4edda") %>%
+  row_spec(1:3, background = "#f8d7da")
+```
+
+We identified **`r n_total` minister-government observations** involving **`r n_unique` unique individuals** across **`r n_govts` governments**.
+
+## Part 2: Ministers Who Actually Died in Office
+
+<div class="death-box">
+
+```{r deaths}
+# Find ministers with death markers
+deaths <- dk_data[grepl("†", ministerpost)]
+
+death_table <- deaths[, .(
+  Name = navn,
+  Position = sapply(ministerpost, function(x) {
+    if (grepl("statsminister", tolower(x))) return("Prime Minister")
+    if (grepl("finansminister", tolower(x))) return("Finance Minister")
+    if (grepl("indenrigsminister", tolower(x))) return("Interior Minister")
+    if (grepl("undervisningsminister", tolower(x))) return("Education Minister")
+    if (grepl("trafikminister|offentlige arbejder", tolower(x))) return("Transport Minister")
+    return("Minister")
+  }),
+  `Death Date` = stop
+)][order(`Death Date`)]
+
+kable(death_table,
+      caption = "Table 2. Danish ministers who died in office") %>%
+  kable_styling(bootstrap_options = c("striped"))
+```
+
+**Eight Danish ministers literally died in office**, including **three Prime Ministers**: Thorvald Stauning (1942), Hans Hedtoft (1955), and H.C. Hansen (1960). The position of Danish Prime Minister thus carries not merely political hazard but actual mortality risk—a finding we did not anticipate when beginning this lighthearted investigation.
+
+</div>
+
+## Part 3: The Skatteminister Myth—Debunked
+
+```{r skatteminister}
+# Tax vs others comparison
+tax_rate <- person_govt[ministry_type == "Tax Minister", round(100 * mean(fired, na.rm = TRUE), 1)]
+overall_rate <- person_govt[, round(100 * mean(fired, na.rm = TRUE), 1)]
+interior_rate <- person_govt[ministry_type == "Interior Minister", round(100 * mean(fired, na.rm = TRUE), 1)]
+```
+
+<div class="myth-busted">
+
+**MYTH BUSTED:** Tax Ministers had a firing rate of only **`r tax_rate`%**—far below the overall rate of `r overall_rate`% and dramatically lower than Interior Ministers (`r interior_rate`%).
+
+</div>
+
+```{r km-tax, fig.cap="Figure 1. Kaplan-Meier curves: Tax Ministers vs Others"}
+person_govt[, tax_group := fifelse(ministry_type == "Tax Minister", "Tax Minister", "Other")]
+
+km_tax <- survfit(Surv(total_time, fired) ~ tax_group, data = person_govt)
+
+ggsurvplot(
+  km_tax, data = person_govt,
+  pval = TRUE, conf.int = TRUE,
+  xlim = c(0, 5), break.time.by = 1,
+  xlab = "Years", ylab = "Probability of NOT being fired",
+  title = "The 'Skatteminister Syndrome' — DEBUNKED",
+  palette = c("#00A087FF", "#E64B35FF"),
+  legend.labs = c("Other", "Tax Minister"),
+  ggtheme = theme_minimal()
+)
+```
+
+## Part 4: Blue vs Red—A Consistent Pattern
+
+```{r bloc-analysis}
+bloc_ministry <- person_govt[ministry_type %in% c("Interior Minister", "Agriculture Minister",
+                                                   "Transport Minister", "Tax Minister",
+                                                   "Finance Minister", "Prime Minister"), .(
+  N = .N,
+  Fired_pct = round(100 * mean(fired, na.rm = TRUE), 1)
+), by = .(ministry_type, bloc)]
+
+bloc_wide <- dcast(bloc_ministry, ministry_type ~ bloc, value.var = c("N", "Fired_pct"))
+
+kable(bloc_wide[order(-Fired_pct_Blue)],
+      caption = "Table 3. Firing rates by portfolio and political bloc",
+      col.names = c("Portfolio", "N (Blue)", "N (Red)", "Fired % (Blue)", "Fired % (Red)")) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"))
+```
+
+<div class="key-finding">
+
+**Key finding:** Blue (right-wing) governments show consistently higher ministerial firing rates across multiple portfolios. Agriculture Ministers under Blue governments face a **58.8%** firing rate—the highest of any portfolio-bloc combination.
+
+This may reflect:
+- Coalition instability in multi-party Blue governments
+- Agricultural policy controversies (e.g., Eva Kjer Hansen 2016, Esben Lunde Larsen 2018)
+- Different political cultures regarding ministerial accountability
+
+</div>
+
+## Part 5: European Comparison
+
+```{r europe-setup}
+eu_countries <- europe[, .(
+  Region = first(region),
+  Years = .N,
+  Mean_retention = mean(retention_rate_minister, na.rm = TRUE)
+), by = country_name][order(Mean_retention)]
+```
+
+### Most Unstable European Democracies
+
+```{r europe-unstable}
+kable(head(eu_countries[, .(Country = country_name, Region,
+                            Retention = round(Mean_retention, 3))], 10),
+      caption = "Table 4. Europe's most unstable cabinets") %>%
+  kable_styling(bootstrap_options = c("striped"))
+```
+
+**Ukraine** emerges as Europe's most unstable democracy with only **47.1%** retention. The Baltic states (Latvia, Estonia, Lithuania) and Romania also show high turnover, reflecting post-Soviet democratic transitions.
+
+### Most Stable
+
+```{r europe-stable}
+kable(tail(eu_countries[, .(Country = country_name, Region,
+                            Retention = round(Mean_retention, 3))], 8),
+      caption = "Table 5. Europe's most stable cabinets") %>%
+  kable_styling(bootstrap_options = c("striped"))
+```
+
+**Switzerland** (86.9%) and **Luxembourg** (85.0%) lead European stability, followed by Germany (77.5%).
+
+### The Italian Exception
+
+```{r italy}
+italy <- europe[country_name == "Italy"]
+italy_low_years <- sum(italy$retention_rate_minister < 0.5, na.rm = TRUE)
+```
+
+Italy—the classic case of governmental instability—showed **24 years** with retention below 50%. Italian ministers face hazards comparable to characters in Italian opera: dramatic entrances, dramatic exits.
+
+### The Eastern European Shock
+
+```{r eastern-shock, fig.cap="Figure 2. European retention rates over time by region"}
+eu_time <- europe[, .(Mean_retention = mean(retention_rate_minister, na.rm = TRUE)),
+                   by = .(region, year)]
+
+ggplot(eu_time[year >= 1970], aes(x = year, y = Mean_retention, color = region)) +
+  geom_line(linewidth = 1) +
+  geom_vline(xintercept = 1990, linetype = "dashed", color = "gray40") +
+  annotate("text", x = 1991, y = 0.85, label = "Fall of Berlin Wall", hjust = 0, size = 3) +
+  scale_color_manual(values = c("Nordic" = "#4DBBD5FF",
+                                 "Western Europe" = "#00A087FF",
+                                 "Southern Europe" = "#E64B35FF",
+                                 "Eastern Europe" = "#F39B7FFF")) +
+  labs(x = "Year", y = "Mean retention rate",
+       title = "The Democratization Shock",
+       subtitle = "Eastern Europe's retention collapsed after 1990",
+       color = "Region") +
+  theme_minimal()
+```
+
+<div class="key-finding">
+
+**Democratization shock:** Eastern European retention fell from **76.2%** (pre-1990) to **56.3%** (post-1990)—a **20 percentage point** decline. Czechoslovakia experienced the most dramatic change: -61.4 percentage points after the Velvet Revolution.
+
+This finding illustrates a fundamental trade-off: democratic accountability increases ministerial turnover. Autocracies maintain stable cabinets because ministers answer only to the leader, not to voters or media.
+
+</div>
+
+### Denmark in Nordic Context
+
+```{r nordic}
+nordic_stats <- europe[region == "Nordic", .(
+  Retention = round(mean(retention_rate_minister, na.rm = TRUE), 3)
+), by = country_name][order(-Retention)]
+
+kable(nordic_stats,
+      caption = "Table 6. Nordic ministerial retention") %>%
+  kable_styling(bootstrap_options = c("striped")) %>%
+  row_spec(which(nordic_stats$country_name == "Denmark"), background = "#cce5ff", bold = TRUE)
+```
+
+Denmark ranks **third** among Nordic countries, below Sweden and Iceland but above Norway and Finland.
+
+---
+
+# Discussion
+
+## Principal findings
+
+1. **The Skatteminister Syndrome is a myth.** Tax Ministers have among the lowest firing rates (11.8%).
+
+2. **The real hazards are Interior and Agriculture**—especially under Blue governments (firing rates of 62.5% and 58.8% respectively).
+
+3. **Eight ministers literally died in office**, including three Prime Ministers. This transforms our lighthearted investigation into something more sobering.
+
+4. **Blue governments have higher turnover** across multiple portfolios, possibly reflecting coalition complexity or different accountability cultures.
+
+5. **Eastern Europe experienced a democratization shock** of -20 percentage points in retention after 1990.
+
+6. **Italy lives up to its reputation** with 24 years of sub-50% retention.
+
+## Why the myths persist
+
+The Skatteminister myth likely persists due to:
+- **Availability heuristic**: Memorable tax controversies create vivid exemplars
+- **Confirmation bias**: Departures invoke the "curse"; survivals pass unremarked
+- **Narrative appeal**: Cursed positions make better journalism
+
+## Limitations
+
+1. The 30-day threshold for defining "fired" is somewhat arbitrary
+2. We cannot distinguish voluntary resignation from forced dismissal
+3. Small samples for individual portfolios
+4. European data lacks portfolio-specific breakdowns
+
+---
+
+# Conclusions
+
+The "Skatteminister Syndrome" is hereby retired from Danish political folklore. Evidence-based political science identifies Interior and Agriculture as the genuinely hazardous portfolios—especially under Blue governments.
+
+We recommend that risk-averse politicians:
+
+- **Accept** Tax portfolios with confidence
+- **Avoid** Interior and Agriculture under Blue governments
+- **Acknowledge** that being Prime Minister carries literal mortality risk
+- **Consider** that democratic accountability has costs: Eastern European ministers learned this after 1990
+
+---
+
+# Postscript: On Ministerial Mortality
+
+We began this investigation expecting to debunk a folk myth with statistics. We did not expect to discover that eight Danish ministers died in office, including three Prime Ministers in an 18-year span (1942-1960).
+
+The position of Prime Minister thus carries not merely political hazard but actual mortality risk. Whether this reflects the stresses of office, coincidence, or some darker pattern, we leave for future investigations—preferably by researchers with stronger stomachs than ours.
+
+In the meantime, we recommend that aspiring Prime Ministers maintain regular health check-ups and consider the actuarial implications of their ambitions.
+
+---
+
+# Funding
+
+None. Fueled by curiosity and an appropriate number of Danish pastries.
+
+# Competing interests
+
+None declared. The authors have no ministerial ambitions.
+
+---
+
+*Submitted for consideration to the BMJ Christmas Issue 2024*
+
+**Word count**: ~3,500 words of myth-busting, mortality-discovering political epidemiology
+

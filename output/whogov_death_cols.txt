@@ -1,0 +1,3 @@
+Death/exit related columns:
+leader_end_date
+govern_end_date
