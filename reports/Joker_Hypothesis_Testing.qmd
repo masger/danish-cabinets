@@ -1,0 +1,221 @@
+---
+title: "The Joker vs The Data Scientist"
+subtitle: "20 Statistically Absurd Hypotheses Tested on the European Cabinet Dataset"
+author:
+  - name: "The Joker (Chief Ideation Officer)"
+  - name: "The Data Scientist (Chief Dream Crusher)"
+date: "`r format(Sys.Date(), '%d %B %Y')`"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    theme: darkly
+    code-fold: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+library(data.table)
+library(survival)
+library(ggplot2)
+library(lubridate)
+library(stringr)
+
+# Load and prep data
+csv_files <- list.files("../data/international", pattern = "_(Finance|Health|Defense|Interior|Transport)_enriched\\.csv$", full.names = TRUE)
+dat <- rbindlist(lapply(csv_files, fread, colClasses="character"), fill=TRUE)
+
+parse_dt <- function(d_str) {
+  d_str <- trimws(d_str)
+  d_str[d_str %in% c("Incumbent", "Present", "")] <- NA
+  parse_date_time(d_str, orders = c("d B Y", "Y-m-d", "d m Y", "B d, Y", "Y"))
+}
+
+dat[, start_dt := parse_dt(start_date)]
+dat[, end_dt := parse_dt(end_date)]
+dat[is.na(end_dt) & (end_date %in% c("Incumbent", "Present")), end_dt := Sys.time()]
+dat[, dob_dt := parse_dt(dob)]
+
+dat[, tenure_days := as.numeric(difftime(end_dt, start_dt, units="days"))]
+dat[, tenure_years := tenure_days / 365.25]
+dat[is.na(tenure_years) | tenure_years <= 0, tenure_years := 0.1]
+dat[, age_start := as.numeric(difftime(start_dt, dob_dt, units="days")) / 365.25]
+
+dat[, end_month := month(end_dt)]
+dat[, start_month := month(start_dt)]
+dat[, start_weekday := wday(start_dt)]
+
+# Event 1: Fired (Premature exit < 3.5 years)
+dat[, event_fire := ifelse(tenure_years < 3.5, 1, 0)]
+```
+
+# Introduction
+**The Joker:** "We've done the serious science. The BMJ reviewers will love the HICC stuff. But let’s play around. I have 20 brilliant, unhinged ideas about why politicians *actually* fail. Data Scientist, test these immediately."
+
+**The Data Scientist:** "Sigh. Loading `survival` package..."
+
+---
+
+### Hypothesis 1: The "Long Name, Short Tenure" Law
+**Joker:** "A Prime Minister doesn't have time to pronounce long names during a crisis. If your name has more than 15 characters, you get fired faster."
+```{r h1}
+dat[, name_len := nchar(name)]
+# Test if name length correlates with tenure length
+cor_test <- cor.test(dat$name_len, dat$tenure_years, method="pearson")
+cat("Correlation between name length and tenure:", round(cor_test$estimate, 3), "\nP-value:", round(cor_test$p.value, 4))
+```
+**Data Scientist Verdict:** *`r ifelse(cor_test$p.value < 0.05, "The Joker is right. Longer names get fired.", "Null hypothesis reigns. Name length does not impact tenure.")`*
+
+### Hypothesis 2: The Zodiac Killer Hazard
+**Joker:** "Capricorns (December-January) are stubborn. They refuse to resign, so they must be violently fired more often than easy-going Geminis (May-June)."
+```{r h2}
+dat[, zodiac_capricorn := ifelse(!is.na(dob_dt) & month(dob_dt) %in% c(12, 1), 1, 0)]
+c2 <- coxph(Surv(tenure_years, event_fire) ~ zodiac_capricorn, data=dat)
+summary(c2)$coefficients
+```
+
+### Hypothesis 3: The "Tuesday Execution" Rule
+**Joker:** "Cabinets meet on Mondays. The Prime Minister gets mad on Monday night. Firings happen on Tuesdays."
+```{r h3}
+dat[, end_weekday := wday(end_dt, label=TRUE)]
+table(dat[event_fire==1]$end_weekday)
+```
+
+### Hypothesis 4: The Serial Masochist Effect
+**Joker:** "Anyone who accepts a cabinet job *twice* has a death wish. Second-termers must have higher mortality hazards."
+```{r h4}
+dat[, num_terms := .N, by=name]
+dat[, serial_masochist := ifelse(num_terms > 1, 1, 0)]
+c4 <- coxph(Surv(tenure_years, event_fire) ~ serial_masochist, data=dat)
+summary(c4)$coefficients
+```
+
+### Hypothesis 5: The "Alphabet Firing Squad"
+**Joker:** "Ministers whose last names start with 'K' (Kill) or 'F' (Fired) are subconsciously targeted by the media."
+```{r h5}
+dat[, last_initial := str_sub(word(name, -1), 1, 1)]
+dat[, is_KF := ifelse(last_initial %in% c("K", "F"), 1, 0)]
+c5 <- coxph(Surv(tenure_years, event_fire) ~ is_KF, data=dat)
+summary(c5)$coefficients
+```
+
+### Hypothesis 6: The "Spring Cleaning" Theory
+**Joker:** "Ministers fired in April or May are victims of a biological urge to declutter the cabinet."
+```{r h6}
+dat[, is_spring := ifelse(end_month %in% c(4,5), 1, 0)]
+cat("Firings in Spring: ", sum(dat$is_spring == 1 & dat$event_fire == 1), "\n")
+cat("Firings in Rest of Year: ", sum(dat$is_spring == 0 & dat$event_fire == 1), "\n")
+```
+
+### Hypothesis 7: The "Youth Overconfidence" Paradox
+**Joker:** "Millennials think they can fix everything. Ministers appointed under age 40 get fired twice as fast as Boomers."
+```{r h7}
+dat[, is_young := ifelse(age_start < 40, 1, 0)]
+c7 <- coxph(Surv(tenure_years, event_fire) ~ is_young, data=dat)
+summary(c7)$coefficients
+```
+
+### Hypothesis 8: The "Old Guard Resilience"
+**Joker:** "Ministers over 65 are un-fireable because Prime Ministers feel bad yelling at the elderly."
+```{r h8}
+dat[, is_elder := ifelse(age_start > 65, 1, 0)]
+c8 <- coxph(Surv(tenure_years, event_fire) ~ is_elder, data=dat)
+summary(c8)$coefficients
+```
+
+### Hypothesis 9: The "Mediterranean Chaos" Theorem
+**Joker:** "Greek and Italian ministers have a half-life of exactly 6 months. It's the olive oil, it makes things slippery."
+```{r h9}
+dat[, is_med := ifelse(country %in% c("Greece", "Italy"), 1, 0)]
+c9 <- coxph(Surv(tenure_years, event_fire) ~ is_med, data=dat)
+summary(c9)$coefficients
+```
+
+### Hypothesis 10: The "Mid-Life Crisis" Metric
+**Joker:** "Ministers appointed exactly at age 50 are more likely to resign prematurely to buy a sports car."
+```{r h10}
+dat[, midlife_crisis := ifelse(floor(age_start) %in% 49:51, 1, 0)]
+c10 <- coxph(Surv(tenure_years, event_fire) ~ midlife_crisis, data=dat)
+summary(c10)$coefficients
+```
+
+### Hypothesis 11: The "Cursed Month of November"
+**Joker:** "Prime Ministers clean house in November before Christmas bonuses run out."
+```{r h11}
+dat[, is_nov := ifelse(end_month == 11, 1, 0)]
+c11 <- coxph(Surv(tenure_years, event_fire) ~ is_nov, data=dat)
+summary(c11)$coefficients
+```
+
+### Hypothesis 12: The "Initial Caprice" Rule
+**Joker:** "If your first and last name start with the same letter (e.g., Peter Pan, Boris Johnson- wait no), you are seen as a cartoon character and fired faster."
+```{r h12}
+dat[, first_init := str_sub(name, 1, 1)]
+dat[, alliteration := ifelse(first_init == last_initial, 1, 0)]
+c12 <- coxph(Surv(tenure_years, event_fire) ~ alliteration, data=dat)
+summary(c12)$coefficients
+```
+
+### Hypothesis 13: The "Weekend Worker" Anomaly
+**Joker:** "If your official start date is a Saturday or Sunday, it was an emergency appointment. You are the 'fall guy' and will be fired quickly."
+```{r h13}
+dat[, weekend_start := ifelse(start_weekday %in% c(1, 7), 1, 0)] # 1=Sun, 7=Sat
+c13 <- coxph(Surv(tenure_years, event_fire) ~ weekend_start, data=dat)
+summary(c13)$coefficients
+```
+
+### Hypothesis 14: UK Transport Curse
+**Joker:** "Being the UK Transport Minister is objectively the single worst job in European history. Their survival curve drops off a cliff."
+```{r h14}
+dat[, uk_transport := ifelse(country == "UK" & portfolio == "Transport", 1, 0)]
+c14 <- coxph(Surv(tenure_years, event_fire) ~ uk_transport, data=dat)
+summary(c14)$coefficients
+```
+
+### Hypothesis 15: The Leap Year Jinx
+**Joker:** "Ministers appointed in a leap year are cosmically doomed."
+```{r h15}
+dat[, leap_year_start := ifelse(year(start_dt) %% 4 == 0, 1, 0)]
+c15 <- coxph(Surv(tenure_years, event_fire) ~ leap_year_start, data=dat)
+summary(c15)$coefficients
+```
+
+### Hypothesis 16: The Decadal Stability Decline
+**Joker:** "Politicians today are weaker than in the 70s. The 2010s had double the firing rate of the 1980s."
+```{r h16}
+dat[, decade_start := floor(year(start_dt) / 10) * 10]
+dat_80s <- dat[decade_start == 1980, .(R80 = mean(event_fire))]
+dat_10s <- dat[decade_start == 2010, .(R10 = mean(event_fire))]
+cat("1980s Firing Rate:", dat_80s$R80, "\n2010s Firing Rate:", dat_10s$R10)
+```
+
+### Hypothesis 17: The "Holiday Return" Gift
+**Joker:** "Ministers appointed in December are just holiday gifts that get 'returned' (fired) in January."
+```{r h17}
+dat[, dec_start := ifelse(start_month == 12, 1, 0)]
+dat[, jan_fire := ifelse(event_fire == 1 & end_month == 1, 1, 0)]
+cat("Count of Dec starts who were fired in Jan: ", sum(dat$dec_start == 1 & dat$jan_fire == 1))
+```
+
+### Hypothesis 18: Gendered Names (Proxy) vs Defense
+**Joker:** "Defense ministries are hyper-masculine; any name ending in an 'a' (traditionally feminine in many European languages) will be rejected by the generals faster."
+```{r h18}
+dat[, ends_in_a := ifelse(str_sub(name, -1) == "a", 1, 0)]
+c18 <- coxph(Surv(tenure_years, event_fire) ~ ends_in_a, data=dat[portfolio == "Defense"])
+summary(c18)$coefficients
+```
+
+### Hypothesis 19: The "Three Letter Name" Advantage
+**Joker:** "If your last name is 3 letters long (e.g. Fox), the tabloids can fit it into big headlines easily, so they hunt you faster."
+```{r h19}
+dat[, short_last := ifelse(nchar(word(name, -1)) <= 3, 1, 0)]
+c19 <- coxph(Surv(tenure_years, event_fire) ~ short_last, data=dat)
+summary(c19)$coefficients
+```
+
+### Hypothesis 20: The "Christmas Eve" Axe
+**Joker:** "The cruelest Prime Ministers fire people on exactly December 24th."
+```{r h20}
+dat[, is_xmaseve := ifelse(!is.na(end_dt) & month(end_dt) == 12 & day(end_dt) == 24 & event_fire == 1, 1, 0)]
+cat("Ministers fired on Christmas Eve: ", sum(dat$is_xmaseve, na.rm=T))
+```

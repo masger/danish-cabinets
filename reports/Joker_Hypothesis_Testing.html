@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="The Joker (Chief Ideation Officer)">
+<meta name="author" content="The Data Scientist (Chief Dream Crusher)">
+<meta name="dcterms.date" content="2026-03-02">
+
+<title>The Joker vs The Data Scientist</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Joker_Hypothesis_Testing_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Joker_Hypothesis_Testing_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="Joker_Hypothesis_Testing_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="Joker_Hypothesis_Testing_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="Joker_Hypothesis_Testing_files/libs/quarto-html/popper.min.js"></script>
+<script src="Joker_Hypothesis_Testing_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Joker_Hypothesis_Testing_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Joker_Hypothesis_Testing_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Joker_Hypothesis_Testing_files/libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Joker_Hypothesis_Testing_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Joker_Hypothesis_Testing_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Joker_Hypothesis_Testing_files/libs/bootstrap/bootstrap-25c77e3d61687365d748c0d3337093a5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#hypothesis-1-the-long-name-short-tenure-law" id="toc-hypothesis-1-the-long-name-short-tenure-law" class="nav-link" data-scroll-target="#hypothesis-1-the-long-name-short-tenure-law">Hypothesis 1: The “Long Name, Short Tenure” Law</a></li>
+  <li><a href="#hypothesis-2-the-zodiac-killer-hazard" id="toc-hypothesis-2-the-zodiac-killer-hazard" class="nav-link" data-scroll-target="#hypothesis-2-the-zodiac-killer-hazard">Hypothesis 2: The Zodiac Killer Hazard</a></li>
+  <li><a href="#hypothesis-3-the-tuesday-execution-rule" id="toc-hypothesis-3-the-tuesday-execution-rule" class="nav-link" data-scroll-target="#hypothesis-3-the-tuesday-execution-rule">Hypothesis 3: The “Tuesday Execution” Rule</a></li>
+  <li><a href="#hypothesis-4-the-serial-masochist-effect" id="toc-hypothesis-4-the-serial-masochist-effect" class="nav-link" data-scroll-target="#hypothesis-4-the-serial-masochist-effect">Hypothesis 4: The Serial Masochist Effect</a></li>
+  <li><a href="#hypothesis-5-the-alphabet-firing-squad" id="toc-hypothesis-5-the-alphabet-firing-squad" class="nav-link" data-scroll-target="#hypothesis-5-the-alphabet-firing-squad">Hypothesis 5: The “Alphabet Firing Squad”</a></li>
+  <li><a href="#hypothesis-6-the-spring-cleaning-theory" id="toc-hypothesis-6-the-spring-cleaning-theory" class="nav-link" data-scroll-target="#hypothesis-6-the-spring-cleaning-theory">Hypothesis 6: The “Spring Cleaning” Theory</a></li>
+  <li><a href="#hypothesis-7-the-youth-overconfidence-paradox" id="toc-hypothesis-7-the-youth-overconfidence-paradox" class="nav-link" data-scroll-target="#hypothesis-7-the-youth-overconfidence-paradox">Hypothesis 7: The “Youth Overconfidence” Paradox</a></li>
+  <li><a href="#hypothesis-8-the-old-guard-resilience" id="toc-hypothesis-8-the-old-guard-resilience" class="nav-link" data-scroll-target="#hypothesis-8-the-old-guard-resilience">Hypothesis 8: The “Old Guard Resilience”</a></li>
+  <li><a href="#hypothesis-9-the-mediterranean-chaos-theorem" id="toc-hypothesis-9-the-mediterranean-chaos-theorem" class="nav-link" data-scroll-target="#hypothesis-9-the-mediterranean-chaos-theorem">Hypothesis 9: The “Mediterranean Chaos” Theorem</a></li>
+  <li><a href="#hypothesis-10-the-mid-life-crisis-metric" id="toc-hypothesis-10-the-mid-life-crisis-metric" class="nav-link" data-scroll-target="#hypothesis-10-the-mid-life-crisis-metric">Hypothesis 10: The “Mid-Life Crisis” Metric</a></li>
+  <li><a href="#hypothesis-11-the-cursed-month-of-november" id="toc-hypothesis-11-the-cursed-month-of-november" class="nav-link" data-scroll-target="#hypothesis-11-the-cursed-month-of-november">Hypothesis 11: The “Cursed Month of November”</a></li>
+  <li><a href="#hypothesis-12-the-initial-caprice-rule" id="toc-hypothesis-12-the-initial-caprice-rule" class="nav-link" data-scroll-target="#hypothesis-12-the-initial-caprice-rule">Hypothesis 12: The “Initial Caprice” Rule</a></li>
+  <li><a href="#hypothesis-13-the-weekend-worker-anomaly" id="toc-hypothesis-13-the-weekend-worker-anomaly" class="nav-link" data-scroll-target="#hypothesis-13-the-weekend-worker-anomaly">Hypothesis 13: The “Weekend Worker” Anomaly</a></li>
+  <li><a href="#hypothesis-14-uk-transport-curse" id="toc-hypothesis-14-uk-transport-curse" class="nav-link" data-scroll-target="#hypothesis-14-uk-transport-curse">Hypothesis 14: UK Transport Curse</a></li>
+  <li><a href="#hypothesis-15-the-leap-year-jinx" id="toc-hypothesis-15-the-leap-year-jinx" class="nav-link" data-scroll-target="#hypothesis-15-the-leap-year-jinx">Hypothesis 15: The Leap Year Jinx</a></li>
+  <li><a href="#hypothesis-16-the-decadal-stability-decline" id="toc-hypothesis-16-the-decadal-stability-decline" class="nav-link" data-scroll-target="#hypothesis-16-the-decadal-stability-decline">Hypothesis 16: The Decadal Stability Decline</a></li>
+  <li><a href="#hypothesis-17-the-holiday-return-gift" id="toc-hypothesis-17-the-holiday-return-gift" class="nav-link" data-scroll-target="#hypothesis-17-the-holiday-return-gift">Hypothesis 17: The “Holiday Return” Gift</a></li>
+  <li><a href="#hypothesis-18-gendered-names-proxy-vs-defense" id="toc-hypothesis-18-gendered-names-proxy-vs-defense" class="nav-link" data-scroll-target="#hypothesis-18-gendered-names-proxy-vs-defense">Hypothesis 18: Gendered Names (Proxy) vs Defense</a></li>
+  <li><a href="#hypothesis-19-the-three-letter-name-advantage" id="toc-hypothesis-19-the-three-letter-name-advantage" class="nav-link" data-scroll-target="#hypothesis-19-the-three-letter-name-advantage">Hypothesis 19: The “Three Letter Name” Advantage</a></li>
+  <li><a href="#hypothesis-20-the-christmas-eve-axe" id="toc-hypothesis-20-the-christmas-eve-axe" class="nav-link" data-scroll-target="#hypothesis-20-the-christmas-eve-axe">Hypothesis 20: The “Christmas Eve” Axe</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">The Joker vs The Data Scientist</h1>
+<p class="subtitle lead">20 Statistically Absurd Hypotheses Tested on the European Cabinet Dataset</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Authors</div>
+    <div class="quarto-title-meta-contents">
+             <p>The Joker (Chief Ideation Officer) </p>
+             <p>The Data Scientist (Chief Dream Crusher) </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 2, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p><strong>The Joker:</strong> “We’ve done the serious science. The BMJ reviewers will love the HICC stuff. But let’s play around. I have 20 brilliant, unhinged ideas about why politicians <em>actually</em> fail. Data Scientist, test these immediately.”</p>
+<p><strong>The Data Scientist:</strong> “Sigh. Loading <code>survival</code> package…”</p>
+<hr>
+<section id="hypothesis-1-the-long-name-short-tenure-law" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesis-1-the-long-name-short-tenure-law">Hypothesis 1: The “Long Name, Short Tenure” Law</h3>
+<p><strong>Joker:</strong> “A Prime Minister doesn’t have time to pronounce long names during a crisis. If your name has more than 15 characters, you get fired faster.”</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>dat[, name_len <span class="sc">:</span><span class="er">=</span> <span class="fu">nchar</span>(name)]</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Test if name length correlates with tenure length</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>cor_test <span class="ot">&lt;-</span> <span class="fu">cor.test</span>(dat<span class="sc">$</span>name_len, dat<span class="sc">$</span>tenure_years, <span class="at">method=</span><span class="st">"pearson"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Correlation between name length and tenure:"</span>, <span class="fu">round</span>(cor_test<span class="sc">$</span>estimate, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">P-value:"</span>, <span class="fu">round</span>(cor_test<span class="sc">$</span>p.value, <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Correlation between name length and tenure: -0.037 
+P-value: 0.2103</code></pre>
+</div>
+</div>
+<p><strong>Data Scientist Verdict:</strong> <em>Null hypothesis reigns. Name length does not impact tenure.</em></p>
+</section>
+<section id="hypothesis-2-the-zodiac-killer-hazard" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesis-2-the-zodiac-killer-hazard">Hypothesis 2: The Zodiac Killer Hazard</h3>
+<p><strong>Joker:</strong> “Capricorns (December-January) are stubborn. They refuse to resign, so they must be violently fired more often than easy-going Geminis (May-June).”</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dat[, zodiac_capricorn <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(dob_dt) <span class="sc">&amp;</span> <span class="fu">month</span>(dob_dt) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">1</span>), <span class="dv">1</span>, <span class="dv">0</span>)]</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>c2 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(tenure_years, event_fire) <span class="sc">~</span> zodiac_capricorn, <span class="at">data=</span>dat)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(c2)<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                        coef exp(coef)   se(coef)          z  Pr(&gt;|z|)
+zodiac_capricorn -0.04919172 0.9519986 0.08933583 -0.5506382 0.5818817</code></pre>
+</div>
+</div>
+</section>
+<section id="hypothesis-3-the-tuesday-execution-rule" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesis-3-the-tuesday-execution-rule">Hypothesis 3: The “Tuesday Execution” Rule</h3>
+<p><strong>Joker:</strong> “Cabinets meet on Mondays. The Prime Minister gets mad on Monday night. Firings happen on Tuesdays.”</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dat[, end_weekday <span class="sc">:</span><span class="er">=</span> <span class="fu">wday</span>(end_dt, <span class="at">label=</span><span class="cn">TRUE</span>)]</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dat[event_fire<span class="sc">==</span><span class="dv">1</span>]<span class="sc">$</span>end_weekday)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ sø  ma  ti  on  to  fr  lø 
+ 45 162 163 138 164 193  46 </code></pre>
+</div>
+</div>
+</section>
+<section id="hypothesis-4-the-serial-masochist-effect" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesis-4-the-serial-masochist-effect">Hypothesis 4: The Serial Masochist Effect</h3>
+<p><strong>Joker:</strong> “Anyone who accepts a cabinet job <em>twice</em> has a death wish. Second-termers must have higher mortality hazards.”</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dat[, num_terms <span class="sc">:</span><span class="er">=</span> .N, by<span class="ot">=</span>name]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>dat[, serial_masochist <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(num_terms <span class="sc">&gt;</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)]</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>c4 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(tenure_years, event_fire) <span class="sc">~</span> serial_masochist, <span class="at">data=</span>dat)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(c4)<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                      coef exp(coef)   se(coef)        z   Pr(&gt;|z|)
+serial_masochist 0.1977587  1.218668 0.07312907 2.704242 0.00684605</code></pre>
+</div>
+</div>
+</section>
+<section id="hypothesis-5-the-alphabet-firing-squad" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesis-5-the-alphabet-firing-squad">Hypothesis 5: The “Alphabet Firing Squad”</h3>
+<p><strong>Joker:</strong> “Ministers whose last names start with ‘K’ (Kill) or ‘F’ (Fired) are subconsciously targeted by the media.”</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dat[, last_initial <span class="sc">:</span><span class="er">=</span> <span class="fu">str_sub</span>(<span class="fu">word</span>(name, <span class="sc">-</span><span class="dv">1</span>), <span class="dv">1</span>, <span class="dv">1</span>)]</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>dat[, is_KF <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(last_initial <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"K"</span>, <span class="st">"F"</span>), <span class="dv">1</span>, <span class="dv">0</span>)]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>c5 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(tenure_years, event_fire) <span class="sc">~</span> is_KF, <span class="at">data=</span>dat)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(c5)<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>           coef exp(coef)  se(coef)        z Pr(&gt;|z|)
+is_KF 0.2412539  1.272844 0.1070094 2.254512 0.024164</code></pre>
+</div>
+</div>
+</section>
+<section id="hypothesis-6-the-spring-cleaning-theory" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesis-6-the-spring-cleaning-theory">Hypothesis 6: The “Spring Cleaning” Theory</h3>
+<p><strong>Joker:</strong> “Ministers fired in April or May are victims of a biological urge to declutter the cabinet.”</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dat[, is_spring <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(end_month <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">5</span>), <span class="dv">1</span>, <span class="dv">0</span>)]</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Firings in Spring: "</span>, <span class="fu">sum</span>(dat<span class="sc">$</span>is_spring <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> dat<span class="sc">$</span>event_fire <span class="sc">==</span> <span class="dv">1</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Firings in Spring:  169 </code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Firings in Rest of Year: "</span>, <span class="fu">sum</span>(dat<span class="sc">$</span>is_spring <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> dat<span class="sc">$</span>event_fire <span class="sc">==</span> <span class="dv">1</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Firings in Rest of Year:  743 </code></pre>
+</div>
+</div>
+</section>
+<section id="hypothesis-7-the-youth-overconfidence-paradox" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesis-7-the-youth-overconfidence-paradox">Hypothesis 7: The “Youth Overconfidence” Paradox</h3>
+<p><strong>Joker:</strong> “Millennials think they can fix everything. Ministers appointed under age 40 get fired twice as fast as Boomers.”</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>dat[, is_young <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(age_start <span class="sc">&lt;</span> <span class="dv">40</span>, <span class="dv">1</span>, <span class="dv">0</span>)]</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>c7 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(tenure_years, event_fire) <span class="sc">~</span> is_young, <span class="at">data=</span>dat)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(c7)<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                coef exp(coef)  se(coef)          z  Pr(&gt;|z|)
+is_young -0.03305031 0.9674899 0.1196112 -0.2763144 0.7823066</code></pre>
+</div>
+</div>
+</section>
+<section id="hypothesis-8-the-old-guard-resilience" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesis-8-the-old-guard-resilience">Hypothesis 8: The “Old Guard Resilience”</h3>
+<p><strong>Joker:</strong> “Ministers over 65 are un-fireable because Prime Ministers feel bad yelling at the elderly.”</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>dat[, is_elder <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(age_start <span class="sc">&gt;</span> <span class="dv">65</span>, <span class="dv">1</span>, <span class="dv">0</span>)]</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>c8 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(tenure_years, event_fire) <span class="sc">~</span> is_elder, <span class="at">data=</span>dat)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(c8)<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>              coef exp(coef)  se(coef)        z     Pr(&gt;|z|)
+is_elder 0.4901411  1.632547 0.1243045 3.943068 8.044569e-05</code></pre>
+</div>
+</div>
+</section>
+<section id="hypothesis-9-the-mediterranean-chaos-theorem" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesis-9-the-mediterranean-chaos-theorem">Hypothesis 9: The “Mediterranean Chaos” Theorem</h3>
+<p><strong>Joker:</strong> “Greek and Italian ministers have a half-life of exactly 6 months. It’s the olive oil, it makes things slippery.”</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>dat[, is_med <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(country <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Greece"</span>, <span class="st">"Italy"</span>), <span class="dv">1</span>, <span class="dv">0</span>)]</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>c9 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(tenure_years, event_fire) <span class="sc">~</span> is_med, <span class="at">data=</span>dat)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(c9)<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>            coef exp(coef)   se(coef)        z     Pr(&gt;|z|)
+is_med 0.5206951  1.683197 0.07361301 7.073412 1.511697e-12</code></pre>
+</div>
+</div>
+</section>
+<section id="hypothesis-10-the-mid-life-crisis-metric" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesis-10-the-mid-life-crisis-metric">Hypothesis 10: The “Mid-Life Crisis” Metric</h3>
+<p><strong>Joker:</strong> “Ministers appointed exactly at age 50 are more likely to resign prematurely to buy a sports car.”</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>dat[, midlife_crisis <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(<span class="fu">floor</span>(age_start) <span class="sc">%in%</span> <span class="dv">49</span><span class="sc">:</span><span class="dv">51</span>, <span class="dv">1</span>, <span class="dv">0</span>)]</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>c10 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(tenure_years, event_fire) <span class="sc">~</span> midlife_crisis, <span class="at">data=</span>dat)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(c10)<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                       coef exp(coef)  se(coef)           z  Pr(&gt;|z|)
+midlife_crisis -0.004229674 0.9957793 0.1012873 -0.04175918 0.9666907</code></pre>
+</div>
+</div>
+</section>
+<section id="hypothesis-11-the-cursed-month-of-november" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesis-11-the-cursed-month-of-november">Hypothesis 11: The “Cursed Month of November”</h3>
+<p><strong>Joker:</strong> “Prime Ministers clean house in November before Christmas bonuses run out.”</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>dat[, is_nov <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(end_month <span class="sc">==</span> <span class="dv">11</span>, <span class="dv">1</span>, <span class="dv">0</span>)]</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>c11 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(tenure_years, event_fire) <span class="sc">~</span> is_nov, <span class="at">data=</span>dat)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(c11)<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>             coef exp(coef)  se(coef)         z  Pr(&gt;|z|)
+is_nov 0.06802434  1.070391 0.1252502 0.5431076 0.5870557</code></pre>
+</div>
+</div>
+</section>
+<section id="hypothesis-12-the-initial-caprice-rule" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesis-12-the-initial-caprice-rule">Hypothesis 12: The “Initial Caprice” Rule</h3>
+<p><strong>Joker:</strong> “If your first and last name start with the same letter (e.g., Peter Pan, Boris Johnson- wait no), you are seen as a cartoon character and fired faster.”</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>dat[, first_init <span class="sc">:</span><span class="er">=</span> <span class="fu">str_sub</span>(name, <span class="dv">1</span>, <span class="dv">1</span>)]</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>dat[, alliteration <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(first_init <span class="sc">==</span> last_initial, <span class="dv">1</span>, <span class="dv">0</span>)]</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>c12 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(tenure_years, event_fire) <span class="sc">~</span> alliteration, <span class="at">data=</span>dat)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(c12)<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  coef exp(coef)  se(coef)        z   Pr(&gt;|z|)
+alliteration 0.2202587  1.246399 0.1336299 1.648275 0.09929635</code></pre>
+</div>
+</div>
+</section>
+<section id="hypothesis-13-the-weekend-worker-anomaly" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesis-13-the-weekend-worker-anomaly">Hypothesis 13: The “Weekend Worker” Anomaly</h3>
+<p><strong>Joker:</strong> “If your official start date is a Saturday or Sunday, it was an emergency appointment. You are the ‘fall guy’ and will be fired quickly.”</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>dat[, weekend_start <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(start_weekday <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">7</span>), <span class="dv">1</span>, <span class="dv">0</span>)] <span class="co"># 1=Sun, 7=Sat</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>c13 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(tenure_years, event_fire) <span class="sc">~</span> weekend_start, <span class="at">data=</span>dat)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(c13)<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                   coef exp(coef)  se(coef)        z   Pr(&gt;|z|)
+weekend_start 0.1831668  1.201015 0.1069811 1.712142 0.08687057</code></pre>
+</div>
+</div>
+</section>
+<section id="hypothesis-14-uk-transport-curse" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesis-14-uk-transport-curse">Hypothesis 14: UK Transport Curse</h3>
+<p><strong>Joker:</strong> “Being the UK Transport Minister is objectively the single worst job in European history. Their survival curve drops off a cliff.”</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>dat[, uk_transport <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(country <span class="sc">==</span> <span class="st">"UK"</span> <span class="sc">&amp;</span> portfolio <span class="sc">==</span> <span class="st">"Transport"</span>, <span class="dv">1</span>, <span class="dv">0</span>)]</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>c14 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(tenure_years, event_fire) <span class="sc">~</span> uk_transport, <span class="at">data=</span>dat)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(c14)<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  coef exp(coef)  se(coef)        z  Pr(&gt;|z|)
+uk_transport 0.2828711  1.326934 0.1955236 1.446737 0.1479706</code></pre>
+</div>
+</div>
+</section>
+<section id="hypothesis-15-the-leap-year-jinx" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesis-15-the-leap-year-jinx">Hypothesis 15: The Leap Year Jinx</h3>
+<p><strong>Joker:</strong> “Ministers appointed in a leap year are cosmically doomed.”</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>dat[, leap_year_start <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(<span class="fu">year</span>(start_dt) <span class="sc">%%</span> <span class="dv">4</span> <span class="sc">==</span> <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)]</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>c15 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(tenure_years, event_fire) <span class="sc">~</span> leap_year_start, <span class="at">data=</span>dat)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(c15)<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                     coef exp(coef)   se(coef)        z  Pr(&gt;|z|)
+leap_year_start 0.1192668   1.12667 0.07903078 1.509118 0.1312685</code></pre>
+</div>
+</div>
+</section>
+<section id="hypothesis-16-the-decadal-stability-decline" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesis-16-the-decadal-stability-decline">Hypothesis 16: The Decadal Stability Decline</h3>
+<p><strong>Joker:</strong> “Politicians today are weaker than in the 70s. The 2010s had double the firing rate of the 1980s.”</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>dat[, decade_start <span class="sc">:</span><span class="er">=</span> <span class="fu">floor</span>(<span class="fu">year</span>(start_dt) <span class="sc">/</span> <span class="dv">10</span>) <span class="sc">*</span> <span class="dv">10</span>]</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>dat_80s <span class="ot">&lt;-</span> dat[decade_start <span class="sc">==</span> <span class="dv">1980</span>, .(<span class="at">R80 =</span> <span class="fu">mean</span>(event_fire))]</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>dat_10s <span class="ot">&lt;-</span> dat[decade_start <span class="sc">==</span> <span class="dv">2010</span>, .(<span class="at">R10 =</span> <span class="fu">mean</span>(event_fire))]</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"1980s Firing Rate:"</span>, dat_80s<span class="sc">$</span>R80, <span class="st">"</span><span class="sc">\n</span><span class="st">2010s Firing Rate:"</span>, dat_10s<span class="sc">$</span>R10)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>1980s Firing Rate: 0.803653 
+2010s Firing Rate: 0.7692308</code></pre>
+</div>
+</div>
+</section>
+<section id="hypothesis-17-the-holiday-return-gift" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesis-17-the-holiday-return-gift">Hypothesis 17: The “Holiday Return” Gift</h3>
+<p><strong>Joker:</strong> “Ministers appointed in December are just holiday gifts that get ‘returned’ (fired) in January.”</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>dat[, dec_start <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(start_month <span class="sc">==</span> <span class="dv">12</span>, <span class="dv">1</span>, <span class="dv">0</span>)]</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>dat[, jan_fire <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(event_fire <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> end_month <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)]</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Count of Dec starts who were fired in Jan: "</span>, <span class="fu">sum</span>(dat<span class="sc">$</span>dec_start <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> dat<span class="sc">$</span>jan_fire <span class="sc">==</span> <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Count of Dec starts who were fired in Jan:  8</code></pre>
+</div>
+</div>
+</section>
+<section id="hypothesis-18-gendered-names-proxy-vs-defense" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesis-18-gendered-names-proxy-vs-defense">Hypothesis 18: Gendered Names (Proxy) vs Defense</h3>
+<p><strong>Joker:</strong> “Defense ministries are hyper-masculine; any name ending in an ‘a’ (traditionally feminine in many European languages) will be rejected by the generals faster.”</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>dat[, ends_in_a <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(<span class="fu">str_sub</span>(name, <span class="sc">-</span><span class="dv">1</span>) <span class="sc">==</span> <span class="st">"a"</span>, <span class="dv">1</span>, <span class="dv">0</span>)]</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>c18 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(tenure_years, event_fire) <span class="sc">~</span> ends_in_a, <span class="at">data=</span>dat[portfolio <span class="sc">==</span> <span class="st">"Defense"</span>])</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(c18)<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>               coef exp(coef)  se(coef)         z  Pr(&gt;|z|)
+ends_in_a 0.3147674  1.369941 0.3436532 0.9159448 0.3596959</code></pre>
+</div>
+</div>
+</section>
+<section id="hypothesis-19-the-three-letter-name-advantage" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesis-19-the-three-letter-name-advantage">Hypothesis 19: The “Three Letter Name” Advantage</h3>
+<p><strong>Joker:</strong> “If your last name is 3 letters long (e.g.&nbsp;Fox), the tabloids can fit it into big headlines easily, so they hunt you faster.”</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>dat[, short_last <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(<span class="fu">nchar</span>(<span class="fu">word</span>(name, <span class="sc">-</span><span class="dv">1</span>)) <span class="sc">&lt;=</span> <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">0</span>)]</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>c19 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(tenure_years, event_fire) <span class="sc">~</span> short_last, <span class="at">data=</span>dat)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(c19)<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                coef exp(coef)  se(coef)         z  Pr(&gt;|z|)
+short_last 0.2119701  1.236111 0.3350811 0.6325935 0.5269991</code></pre>
+</div>
+</div>
+</section>
+<section id="hypothesis-20-the-christmas-eve-axe" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesis-20-the-christmas-eve-axe">Hypothesis 20: The “Christmas Eve” Axe</h3>
+<p><strong>Joker:</strong> “The cruelest Prime Ministers fire people on exactly December 24th.”</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>dat[, is_xmaseve <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(end_dt) <span class="sc">&amp;</span> <span class="fu">month</span>(end_dt) <span class="sc">==</span> <span class="dv">12</span> <span class="sc">&amp;</span> <span class="fu">day</span>(end_dt) <span class="sc">==</span> <span class="dv">24</span> <span class="sc">&amp;</span> event_fire <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)]</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Ministers fired on Christmas Eve: "</span>, <span class="fu">sum</span>(dat<span class="sc">$</span>is_xmaseve, <span class="at">na.rm=</span>T))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Ministers fired on Christmas Eve:  0</code></pre>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

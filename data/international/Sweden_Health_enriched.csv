@@ -1,0 +1,21 @@
+country,portfolio,name,start_date,end_date,dob,dod,cause_of_death,wikidata_id
+Sweden,Health,Sven Aspling,1962-09-19,1976-10-08,1912-08-28,2000-02-06,,Q5561426
+Sweden,Health,Rune Gustavsson,1976-10-08,1978-10-18,1920-12-02,2002-04-30,,Q5778433
+Sweden,Health,Gabriel Romanus,1978-10-18,1979-10-12,1939-01-25,,,Q724410
+Sweden,Health,Karin Söder,1979-10-12,1982-10-08,1928-11-30,2015-12-19,,Q468538
+Sweden,Health,Sten Andersson,1982-10-08,1985-10-16,1923-04-20,2006-09-16,myocardial infarction,Q1346478
+Sweden,Health,Gertrud Sigurdsen,1985-10-16,1989-01-29,1923-01-11,2015-03-27,,Q4978577
+Sweden,Health,Sven Hulterström,1989-01-29,1990-01-11,1938-05-14,,,Q5816531
+Sweden,Health,Ingela Thalén,1990-01-11,1991-10-04,1943-10-01,,,Q4982419
+Sweden,Health,Bengt Westerberg,1991-10-04,1994-10-07,1943-08-23,,,Q817241
+Sweden,Health,Ingela Thalén,1994-10-07,1996-03-22,1943-10-01,,,Q4982419
+Sweden,Health,Margot Wallström,1996-03-22,1998-10-07,1954-09-28,,,Q237522
+Sweden,Health,Anders Sundström,1998-10-07,1998-10-26,1952-07-26,,,Q6196549
+Sweden,Health,Maj-Inger Klingvall,1998-10-26,1998-11-16,1946-05-15,,,Q4959140
+Sweden,Health,Lars Engqvist,1998-11-16,2004-10-01,1945-08-13,,,Q5854875
+Sweden,Health,Berit Andnor,2004-10-01,2006-10-06,1954-11-20,,,Q4891887
+Sweden,Health,Göran Hägglund,2006-10-06,2014-10-03,1959-01-27,,,Q918261
+Sweden,Health,Annika Strandhäll,2014-10-03,2019-01-21,1975-04-30,,,Q4980750
+Sweden,Health,Lena Hallengren,2019-01-21,2022-10-06,1973-12-25,,,Q3431836
+Sweden,Health,Ardalan Shekarabi,2022-10-06,2022-10-18,1978-11-28,,,Q4787806
+Sweden,Health,Jakob Forssmed,2022-10-18,Incumbent,1974-12-28,,,Q5737841

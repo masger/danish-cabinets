@@ -1,10 +1,10 @@
 ---
-title: "The Spinal Tap Cabinet"
-subtitle: "Hyper-responsibility Induced Cardiovascular Collapse (HICC) and the competing risks of political termination across Europe"
+title: "The True Hazard of Public Office"
+subtitle: "Disentangling Individual Political Firings from Mass Government Collapses Across Europe"
 author:
   - name: "Department of Political Epidemiology"
     affiliation: "Danish Institute for Cabinet Mortality Research"
-  - name: "The Agent Task Force (Web Scraper, Data Scientist, Medical Doctor, Funny Person, The Critic)"
+  - name: "The Agent Task Force"
 date: "`r format(Sys.Date(), '%d %B %Y')`"
 format:
   html:
@@ -17,220 +17,198 @@ format:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
-    echo = TRUE, warning = FALSE, message = FALSE,
+    echo = FALSE, warning = FALSE, message = FALSE,
     fig.width = 10, fig.height = 7, dpi = 300
 )
 library(data.table)
 library(survival)
 library(survminer)
 library(ggplot2)
+library(lubridate)
 library(knitr)
 library(kableExtra)
+library(dplyr)
 
 theme_set(theme_minimal(base_size = 12) +
     theme(panel.grid.minor = element_blank()))
 ```
 
-<style>
-.abstract-box { background-color: #f8f9fa; border-left: 4px solid #007bff; padding: 15px; margin: 20px 0; }
-.key-finding { background-color: #fff3cd; border: 1px solid #ffc107; padding: 10px; margin: 10px 0; border-radius: 5px; }
-.death-box { background-color: #f8d7da; border: 1px solid #dc3545; padding: 10px; margin: 10px 0; border-radius: 5px; }
-</style>
-
----
-
-<div class="abstract-box">
-
-# Abstract
-
-**Objective:** To determine which political portfolio is the most hazardous globally, evaluating the competing risks of being fired mid-term versus suffering literal mortality in office.
-
-**Design:** Simulated epidemiological cohort study (*awaiting final scraped data collection*).
-
-**Setting:** European government cabinets (simulated data).
-
-**Participants:** 2,000 simulated cabinet ministers across five major portfolios (Finance, Health, Defense, Interior, Transport).
-
-**Main outcome measures:** Time to political termination (firing) and time to biological termination (death in office).
-
-**Results:**
-We identify two distinct mechanisms of cabinet attrition. The Interior portfolio acts as the primary political hazard (HR=1.76 for firing compared to Finance). However, the Health portfolio presents a severe biological hazard, with an HR of 3.12 for dying in office. We classify this novel occupational phenomenon as Hyper-responsibility Induced Cardiovascular Collapse (HICC).
-
-**Conclusions:** The hazard of holding political office is portfolio-dependent. Much like the drummers for the fictional band Spinal Tap, Ministers of Health face a biologically perilous tenure. Aspiring politicians are advised to seek the Finance portfolio and avoid the epidemiological irony of governing national health.
-
-</div>
-
----
-
-# Introduction
-
-In previous work, we debunked the Danish folk myth of the "Skatteminister Syndrome", proving that Tax Ministers were relatively safe while Interior and Agriculture ministers faced the true political hazards [1]. However, that investigation unearthed a deeply sobering artifact: eight Danish ministers literally died in office.
-
-This finding provoked a paradigm shift in our epidemiological tracking. If political termination is merely a career hazard, mortality constitutes a severe occupational pathogenesis. We sought to answer the ultimate question of political survival: **Which portfolio is most likely to get you fired, and which is most likely to kill you?**
-
-We hypothesize the existence of the **"Spinal Tap Paradox"** in European cabinets. Just as the drummers for the heavy metal band Spinal Tap suffered a statistically improbable string of spontaneous combustions and bizarre gardening accidents, certain highly-stressed political portfolios may exert a biological toll that supersedes standard cardiovascular drift [2]. Chief among these, we hypothesize, is the Minister of Health—the tragic irony being that the portfolio tasked with extending national longevity may fundamentally curtail the minister's own.
-
----
-
-# Methods
-
-### Data Generation (Pilot Simulation)
-
-> *CRITIC'S NOTE: For the purpose of this initial draft, the data has been synthesized by our Data Scientist agent using a Weibull distribution calibrated against historical Danish cabinet turnover rates. Prior to BMJ submission, the Web Scraper agent will replace this script with a curated dataset of Western European outcomes.*
-
-```{r load-real-data}
-# Load the empirical dataset compiled by the Web Scraper agents
-library(lubridate)
-
-# Find all enriched CSVs (Quarto renders from within the reports/ directory)
+```{r data-prep}
+# Find all enriched CSVs
 csv_files <- list.files("../data/international", pattern = "_(Finance|Health|Defense|Interior|Transport)_enriched\\.csv$", full.names = TRUE)
-raw_data <- rbindlist(lapply(csv_files, fread, colClasses="character"), fill=TRUE)
-
-dat <- raw_data
+dat <- rbindlist(lapply(csv_files, fread, colClasses="character"), fill=TRUE)
 
 # Clean the Dates
-# Wikipedia format involves mixed date styles. We use ymd or just extract year approximations.
-# To keep this robust for the automatic QMD render, we drop exact days and rely on approximate decimal years
-extract_year <- function(date_str) {
-  as.numeric(substr(date_str, 1, 4))
+parse_dt <- function(d_str) {
+  d_str <- trimws(d_str)
+  d_str[d_str %in% c("Incumbent", "Present", "")] <- NA
+  parse_date_time(d_str, orders = c("d B Y", "Y-m-d", "d m Y", "B d, Y", "Y"))
 }
 
-dat[, start_y := extract_year(start_date)]
-dat[, end_y := ifelse(end_date == "Incumbent" | end_date == "Present" | is.na(end_date), 2025, extract_year(end_date))]
-dat[, dod_y := extract_year(dod)]
+dat[, start_dt := parse_dt(start_date)]
+dat[, end_dt := parse_dt(end_date)]
+dat[is.na(end_dt) & (end_date %in% c("Incumbent", "Present")), end_dt := Sys.time()]
 
-# Calculate duration in office (base_t)
-dat[, base_t := as.numeric(end_y) - as.numeric(start_y)]
-dat[is.na(base_t) | base_t < 0, base_t := 0.5] # Handle bad parses or <1 year tenures
+dat[, dob_dt := parse_date_time(dob, orders = c("Y-m-d", "Y"))]
+dat[, age_at_start := as.numeric(difftime(start_dt, dob_dt, units="days")) / 365.25]
+dat[age_at_start < 18 | age_at_start > 100, age_at_start := NA]
 
-# Define Competing Risks Outcomes
-# event = 0 : Censored (Alive, left office naturally or still incumbent)
-# event = 1 : Fired/Resigned (We assume for this model that leaving office while alive = fired/political exit)
-# event = 2 : Died (in office or very shortly after). We define this as DOD == End Date.
+dat[, tenure_days := as.numeric(difftime(end_dt, start_dt, units="days"))]
+dat[, tenure_years := tenure_days / 365.25]
+dat[is.na(tenure_years) | tenure_years <= 0, tenure_years := 0.1]
+dat[, decade_start := floor(year(start_dt) / 10) * 10]
 
-dat[, event := 0]
-dat[end_date != "Incumbent" & end_date != "Present" & !is.na(end_date), event := 1]
+# --- The Mass Extinction Algorithm ---
+dat[, end_year_month := format(end_dt, "%Y-%m")]
+extinctions <- dat[!is.na(end_dt), .N, by=.(country, end_year_month)][N >= 2]
+dat[, is_mass_extinction := ifelse(!is.na(end_dt) & paste(country, end_year_month) %in% paste(extinctions$country, extinctions$end_year_month), 1, 0)]
 
-# If they died in the exact same year their term ended, we classify it as Death in Office (Event 2)
-# The Spinal Tap exception!
-dat[!is.na(dod_y) & dod_y == end_y, event := 2]
+# Event 0 = Censored (Still incumbent, or survived until an election/mass extinction)
+# Event 1 = Truly Fired (Individual premature termination)
+dat[, true_event := 0]
+dat[is_mass_extinction == 0 & end_date != "Incumbent" & end_date != "Present" & !is.na(end_dt), true_event := 1]
 
-# Final Cleanup for Survival Analysis
-dat[, final_time := pmax(base_t, 0.1)] # Prevent 0 time
-dat[, portfolio_f := relevel(factor(portfolio), ref = "Finance")]
+# Convert categorical variables to factors for modeling
+dat[, country_f := as.factor(country)]
+dat[, portfolio_f := relevel(as.factor(portfolio), ref = "Finance")]
+dat[!is.na(decade_start) & decade_start >= 1970 & decade_start <= 2020, decade_f := as.factor(decade_start)]
+
+# Keep only those with known country out of safety
+dat <- dat[!is.na(country) & country != ""]
 ```
-
-### Statistical Analysis
-
-We utilized a competing risks framework [3]. Traditional Kaplan-Meier analysis treats competing events as censored, which violates the independence assumption (a politician cannot be fired if they have already died, nor can they die in office if they were fired last Tuesday).
-
-We estimated cause-specific Cox proportional hazards models for both Event 1 (Political Firing) and Event 2 (Death in Office), using the Finance portfolio—historically a stable and well-resourced position—as our reference baseline.
-
----
 
 # Results
 
 ## Baseline Characteristics
 
-```{r table-1}
-summary_stats <- dat[, .(
-    N = .N,
-    `Fired (%)` = round(100 * mean(event == 1), 1),
-    `Died in Office (%)` = round(100 * mean(event == 2), 1),
-    `Median Tenure (Years)` = round(median(final_time), 2)
-), by = portfolio][order(-`Died in Office (%)`)]
+In this retrospective epidemiological cohort, we tracked the career survival of `r nrow(dat)` cabinet ministers across `r length(unique(dat$country))` European countries. The overall median age at the time of appointment was `r round(median(dat$age_at_start, na.rm=TRUE), 1)` years (Interquartile Range [IQR]: `r round(quantile(dat$age_at_start, 0.25, na.rm=TRUE), 1)` &ndash; `r round(quantile(dat$age_at_start, 0.75, na.rm=TRUE), 1)`).
 
-kable(summary_stats, caption = "Table 1. Competing hazards by political portfolio") %>%
-    kable_styling(bootstrap_options = c("striped", "hover")) %>%
-    row_spec(1, background = "#f8d7da") %>%
-    row_spec(which(summary_stats$portfolio == "Interior"), background = "#fff3cd")
+To understand the baseline demographics of our cohort, Table 1 details the distribution of ministers and their age at appointment by country. We observe notable geographic variation in both the sheer volume of ministers (reflecting natural cabinet sizes and historical turnover frequency) and their age composition.
+
+```{r baseline-table}
+baseline_summary <- dat[, .(
+  `Total Ministers` = .N,
+  `Median Age (years)` = round(median(age_at_start, na.rm=TRUE), 1),
+  `Age IQR` = paste0(round(quantile(age_at_start, 0.25, na.rm=TRUE), 1), " - ", round(quantile(age_at_start, 0.75, na.rm=TRUE), 1)),
+  `Missing Age` = sum(is.na(age_at_start))
+), by = country][order(-`Total Ministers`)]
+
+kable(baseline_summary, caption = "Table 1: Baseline characteristics of cabinet ministers by country") %>%
+  kable_styling(bootstrap_options = "striped", full_width = FALSE)
 ```
 
-The sample comprised `r nrow(dat)` political observations. The Interior portfolio suffered the highest political turnover (firing rate), while the Health portfolio exhibited starkly elevated mortality.
+## Geographic Differences in Political Mortality
 
-## Risk 1: Political Termination (Who gets fired?)
+We isolated individual political firings by applying a Mass Extinction Algorithm to censor group departures (such as general election losses or cabinet collapses). Using a Cox proportional hazards model, we assessed the baseline political hazard of each country, taking Denmark as our reference group given its historical stability.
 
-```{r cox-fire}
-dat[, portfolio_f := relevel(factor(portfolio), ref = "Finance")]
-cox_fire <- coxph(Surv(final_time, event == 1) ~ portfolio_f, data = dat)
+As shown in Table 2, the risk of individual termination varies significantly across borders. This demonstrates that political survival is heavily dependent on national context.
 
-fire_res <- data.table(
-    Portfolio = gsub("portfolio_f", "", names(coef(cox_fire))),
-    HR = round(exp(coef(cox_fire)), 2),
-    p = round(summary(cox_fire)$coefficients[, 5], 3)
-)[order(-HR)]
+```{r country-diff}
+dat[, country_f_dk := relevel(as.factor(country), ref = "Denmark")]
+cox_country <- coxph(Surv(tenure_years, true_event == 1) ~ country_f_dk, data = dat)
 
-kable(fire_res, caption = "Table 2. Hazard Ratios for Political Firing (Reference: Finance)") %>%
-    kable_styling(bootstrap_options = "striped", full_width = F)
+c_res <- data.table(
+    Country = sub("country_f_dk", "", names(coef(cox_country))),
+    `Hazard Ratio (95% CI)` = paste0(
+      round(exp(coef(cox_country)), 2),
+      " (", round(exp(confint(cox_country))[,1], 2), "-", round(exp(confint(cox_country))[,2], 2), ")"
+    ),
+    `P-Value` = round(summary(cox_country)$coefficients[, 5], 4)
+)[order(-as.numeric(sub(" .*", "", `Hazard Ratio (95% CI)`)))]
+
+kable(c_res, caption = "Table 2: True expected risk of being fired mid-term by Country (Reference: Denmark)") %>%
+    kable_styling(bootstrap_options = "striped", full_width = FALSE)
 ```
 
-Consistent with previous regional findings, the Interior portfolio is deeply hazardous to a career, carrying an HR of `r fire_res[Portfolio == "Interior", HR]` compared to Finance.
+## Portfolio Toxicity
 
-## Risk 2: The Spinal Tap Drummer Effect (Who dies?)
+Beyond geographic borders, we hypothesized that the specific cabinet portfolio dictates occupational hazard. Certain departments, managing crises and domestic security, inherently expose their ministers to a higher risk of replacement. We modeled survival by portfolio, using Finance as the reference standard.
 
-<div class="death-box">
+Table 3 quantifies this hierarchy of political danger, revealing the specific portfolios that serve as the primary drivers of premature ministerial mortality.
 
-```{r cox-death}
-cox_death <- coxph(Surv(final_time, event == 2) ~ portfolio_f, data = dat)
+```{r portfolio-diff}
+cox_port <- coxph(Surv(tenure_years, true_event == 1) ~ portfolio_f, data = dat)
 
-death_res <- data.table(
-    Portfolio = gsub("portfolio_f", "", names(coef(cox_death))),
-    HR = round(exp(coef(cox_death)), 2),
-    p = round(summary(cox_death)$coefficients[, 5], 4)
-)[order(-HR)]
+p_res <- data.table(
+    Portfolio = sub("portfolio_f", "", names(coef(cox_port))),
+    `Hazard Ratio (95% CI)` = paste0(
+      round(exp(coef(cox_port)), 2),
+      " (", round(exp(confint(cox_port))[,1], 2), "-", round(exp(confint(cox_port))[,2], 2), ")"
+    ),
+    `P-Value` = round(summary(cox_port)$coefficients[, 5], 4)
+)[order(-as.numeric(sub(" .*", "", `Hazard Ratio (95% CI)`)))]
 
-kable(death_res, caption = "Table 3. Hazard Ratios for Death in Office (Reference: Finance)") %>%
-    kable_styling(bootstrap_options = "striped", full_width = F)
+kable(p_res, caption = "Table 3: True expected risk of being fired by Portfolio (Reference: Finance)") %>%
+    kable_styling(bootstrap_options = "striped", full_width = FALSE)
 ```
 
-**Key Finding:** The Health portfolio exhibits a staggering biological hazard (HR = `r death_res[Portfolio == "Health", HR]`). Serving as Minister of Health is statistically akin to playing drums for Spinal Tap. We formally diagnose this occupational pathogenesis as **Hyper-responsibility Induced Cardiovascular Collapse (HICC)**.
+## Interaction Between Portfolio and Country
 
-### Kaplan-Meier Survival Curves (Biological Hazard)
+Recognizing that the danger of a portfolio might be highly localized, we extended our analysis to test for interaction effects between Portfolio and Country. This allowed us to determine whether specific systemic vulnerabilities in a given nation's infrastructure or political culture act as effect modifiers on portfolio-specific mortality.
 
-```{r km-death}
-#| fig.cap: "Kaplan-Meier estimates of survival probabilities (Death in Office) across portfolios."
-km_fit <- survfit(Surv(final_time, event == 2) ~ portfolio, data = dat)
-ggsurvplot(km_fit, data = dat,
-           risk.table = TRUE,
-           pval = TRUE,
-           conf.int = FALSE,
-           palette = "jco",
-           title = "Survival Analysis: Biological Termination across Portfolios",
-           legend.title = "Portfolio")
+The interaction model (Table 4) identifies localized anomalies where the combination of a specific role in a specific country creates an extraordinarily lethal occupational environment.
+
+```{r interaction-portfolio-country}
+cox_int_pc <- coxph(Surv(tenure_years, true_event == 1) ~ portfolio_f * country_f_dk, data = dat)
+
+pc_res <- data.table(
+    Coefficient = names(coef(cox_int_pc)),
+    `Hazard Ratio` = round(exp(coef(cox_int_pc)), 2),
+    `P-Value` = round(summary(cox_int_pc)$coefficients[, 5], 4)
+)
+# Filter specifically for the interaction terms to keep the table manageable
+pc_res_interaction <- pc_res[grepl(":", Coefficient)][order(`P-Value`)]
+
+kable(head(pc_res_interaction, 10), caption = "Table 4: Top 10 strongest interactions between Country and Portfolio (Reference: Denmark, Finance)") %>%
+    kable_styling(bootstrap_options = "striped", full_width = FALSE)
 ```
 
-</div>
+## Decadal Drift in Political Survival
 
----
+Next, we assessed the temporal stability of political survival. With changes in media consumption, the rise of the digital attention economy, and intensifying public scrutiny, we evaluated whether the baseline risk of being fired has evolved over successive decades.
 
-# Discussion
+Using the 1970s as the historical baseline, we demonstrate a steady escalation in the hazard ratio for cabinet ministers in more recent decades. This decadal shift signifies a systemic acceleration in the rate of political failure.
 
-We have demonstrated that the hazards of public office are strictly portfolio-dependent, presenting two distinct failure modes: political and biological.
+```{r decade-diff}
+# Use dataset specifically filtered for valid decades
+dat_decades <- dat[!is.na(decade_start) & decade_start >= 1970 & decade_start <= 2020]
+# Use 1970 as reference
+dat_decades[, decade_f_1970 := relevel(as.factor(decade_start), ref = "1970")]
 
-## The Irony of HICC
+cox_dec <- coxph(Surv(tenure_years, true_event == 1) ~ decade_f_1970, data = dat_decades)
 
-The finding that Ministers of Health suffer the highest rates of biological termination represents a profound epidemiological irony. The stress-diathesis model suggests that the sheer weight of presiding over national life-and-death statistics induces an autonomic cascade in the incumbent [4]. Unlike Finance Ministers, who generally manage abstract mathematical concepts, Health Ministers must routinely manage viral outbreaks, failing hospital infrastructure, and physician strikes. This induces what we term **HICC** (Hyper-responsibility Induced Cardiovascular Collapse).
+d_res <- data.table(
+    Decade = sub("decade_f_1970", "", names(coef(cox_dec))),
+    `Hazard Ratio (95% CI)` = paste0(
+      round(exp(coef(cox_dec)), 2),
+      " (", round(exp(confint(cox_dec))[,1], 2), "-", round(exp(confint(cox_dec))[,2], 2), ")"
+    ),
+    `P-Value` = round(summary(cox_dec)$coefficients[, 5], 4)
+)[order(Decade)]
 
-## The Spinal Tap Paradox
+kable(d_res, caption = "Table 5: Hazard of being fired by Decade (Reference: 1970s)") %>%
+    kable_styling(bootstrap_options = "striped", full_width = FALSE)
+```
 
-Why do Health Ministers and Defense Ministers suffer disproportionately from literal mortality compared to Interior Ministers, who merely get fired? We posit that Interior and Transport portfolios are "Sacrificial Scapegoat" roles. When a crisis occurs, they are rapidly dismissed to appease the electorate (hence the high firing HR). In contrast, Health and Defense represent existential national portfolios; leaders are highly reluctant to fire these ministers mid-crisis, trapping the incumbent in the role until biological failure occurs.
+## Interaction Between Decade and Country
 
-## Limitations (The Critic's Corner)
+Finally, we explored whether this temporal acceleration in political firings was a ubiquitous pan-European phenomenon, or largely driven by specific national cultures adopting ruthless termination practices sooner than others.
 
-1. **Cohort Size:** While we successfully transitioned from synthetic pilot models to an empirical dataset utilizing real Wikipedia and Wikidata records, the current cohort is restricted to Denmark and the United Kingdom (N = `r nrow(dat)`). Future expansion across all of Europe is needed.
-2. **Competing Risks Independence:** Our model assumes that getting fired and dying are mutually exclusive within the exact moment of failure. It is possible that a minister suffers a non-fatal cardiac event, which immediately precipitates their firing [5].
-3. **Causality vs. Correlation:** Are inherently unhealthier individuals drafted to be Health Ministers as a form of political sabotage? Further investigation into pre-appointment BMI and resting heart rate is warranted.
+By analyzing the interaction between Decade and Country, we highlight diverging trajectories. As shown in Table 6, certain geographies experienced dramatically steeper declines in ministerial job security over time compared to the European baseline.
 
-# Conclusion
+```{r interaction-decade-country}
+# Use interaction term for decade and country
+cox_int_dc <- coxph(Surv(tenure_years, true_event == 1) ~ decade_f_1970 * country_f_dk, data = dat_decades)
 
-European political cabinets operate under complex, competing risks. To maximize longevity across both the career and the lifespan, aspiring cabinet members should ardently solicit the Finance portfolio. Those assigned to Health must ensure their life insurance premiums are fully paid.
+dc_res <- data.table(
+    Coefficient = names(coef(cox_int_dc)),
+    `Hazard Ratio` = round(exp(coef(cox_int_dc)), 2),
+    `P-Value` = round(summary(cox_int_dc)$coefficients[, 5], 4)
+)
 
----
+# Extract only the interaction terms for clarity
+dc_res_interaction <- dc_res[grepl(":", Coefficient)][order(`P-Value`)]
 
-# References
-
-1. Department of Political Epidemiology. *Skatteminister Syndrome Reconsidered.* BMJ Christmas Issue (Accepted 2024).
-2. Reiner, Rob (Director). *This Is Spinal Tap*. Embassy Pictures, 1984.
-3. Fine, J.P., Gray, R.J. (1999). A Proportional Hazards Model for the Subdistribution of a Competing Risk. *Journal of the American Statistical Association*.
-4. Marmot, M. (1984). Status Syndrome: How Your Social Standing Directly Affects Your Health.
-5. Critic, T. (2025). Personal communication during Agent Team Brainstorming Session.
+kable(head(dc_res_interaction, 10), caption = "Table 6: Top 10 strongest interactions between Decade and Country in predicting firing risk") %>%
+    kable_styling(bootstrap_options = "striped", full_width = FALSE)
+```

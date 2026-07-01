@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Department of Political Epidemiology">
-<meta name="author" content="The Agent Task Force (Web Scraper, Data Scientist, Medical Doctor, Funny Person, The Critic)">
-<meta name="dcterms.date" content="2026-03-01">
+<meta name="author" content="The Agent Task Force">
+<meta name="dcterms.date" content="2026-03-02">
 
-<title>The Spinal Tap Cabinet</title>
+<title>The True Hazard of Public Office</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,41 +22,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -89,27 +54,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#abstract" id="toc-abstract" class="nav-link active" data-scroll-target="#abstract">Abstract</a></li>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a>
-  <ul class="collapse">
-  <li><a href="#data-generation-pilot-simulation" id="toc-data-generation-pilot-simulation" class="nav-link" data-scroll-target="#data-generation-pilot-simulation">Data Generation (Pilot Simulation)</a></li>
-  <li><a href="#statistical-analysis" id="toc-statistical-analysis" class="nav-link" data-scroll-target="#statistical-analysis">Statistical Analysis</a></li>
-  </ul></li>
-  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
+  <li><a href="#results" id="toc-results" class="nav-link active" data-scroll-target="#results">Results</a>
   <ul class="collapse">
   <li><a href="#baseline-characteristics" id="toc-baseline-characteristics" class="nav-link" data-scroll-target="#baseline-characteristics">Baseline Characteristics</a></li>
-  <li><a href="#risk-1-political-termination-who-gets-fired" id="toc-risk-1-political-termination-who-gets-fired" class="nav-link" data-scroll-target="#risk-1-political-termination-who-gets-fired">Risk 1: Political Termination (Who gets fired?)</a></li>
-  <li><a href="#risk-2-the-spinal-tap-drummer-effect-who-dies" id="toc-risk-2-the-spinal-tap-drummer-effect-who-dies" class="nav-link" data-scroll-target="#risk-2-the-spinal-tap-drummer-effect-who-dies">Risk 2: The Spinal Tap Drummer Effect (Who dies?)</a></li>
+  <li><a href="#geographic-differences-in-political-mortality" id="toc-geographic-differences-in-political-mortality" class="nav-link" data-scroll-target="#geographic-differences-in-political-mortality">Geographic Differences in Political Mortality</a></li>
+  <li><a href="#portfolio-toxicity" id="toc-portfolio-toxicity" class="nav-link" data-scroll-target="#portfolio-toxicity">Portfolio Toxicity</a></li>
+  <li><a href="#interaction-between-portfolio-and-country" id="toc-interaction-between-portfolio-and-country" class="nav-link" data-scroll-target="#interaction-between-portfolio-and-country">Interaction Between Portfolio and Country</a></li>
+  <li><a href="#decadal-drift-in-political-survival" id="toc-decadal-drift-in-political-survival" class="nav-link" data-scroll-target="#decadal-drift-in-political-survival">Decadal Drift in Political Survival</a></li>
+  <li><a href="#interaction-between-decade-and-country" id="toc-interaction-between-decade-and-country" class="nav-link" data-scroll-target="#interaction-between-decade-and-country">Interaction Between Decade and Country</a></li>
   </ul></li>
-  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a>
-  <ul class="collapse">
-  <li><a href="#the-irony-of-hicc" id="toc-the-irony-of-hicc" class="nav-link" data-scroll-target="#the-irony-of-hicc">The Irony of HICC</a></li>
-  <li><a href="#the-spinal-tap-paradox" id="toc-the-spinal-tap-paradox" class="nav-link" data-scroll-target="#the-spinal-tap-paradox">The Spinal Tap Paradox</a></li>
-  <li><a href="#limitations-the-critics-corner" id="toc-limitations-the-critics-corner" class="nav-link" data-scroll-target="#limitations-the-critics-corner">Limitations (The Critic’s Corner)</a></li>
-  </ul></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
 </div>
@@ -117,8 +70,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">The Spinal Tap Cabinet</h1>
-<p class="subtitle lead">Hyper-responsibility Induced Cardiovascular Collapse (HICC) and the competing risks of political termination across Europe</p>
+<h1 class="title">The True Hazard of Public Office</h1>
+<p class="subtitle lead">Disentangling Individual Political Firings from Mass Government Collapses Across Europe</p>
 </div>
 
 
@@ -135,7 +88,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           </p>
       </div>
     <div class="quarto-title-meta-contents">
-    <p class="author">The Agent Task Force (Web Scraper, Data Scientist, Medical Doctor, Funny Person, The Critic) </p>
+    <p class="author">The Agent Task Force </p>
   </div>
   <div class="quarto-title-meta-contents">
       </div>
@@ -147,7 +100,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 1, 2026</p>
+      <p class="date">March 2, 2026</p>
     </div>
   </div>
   
@@ -159,331 +112,396 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<style>
-.abstract-box { background-color: #f8f9fa; border-left: 4px solid #007bff; padding: 15px; margin: 20px 0; }
-.key-finding { background-color: #fff3cd; border: 1px solid #ffc107; padding: 10px; margin: 10px 0; border-radius: 5px; }
-.death-box { background-color: #f8d7da; border: 1px solid #dc3545; padding: 10px; margin: 10px 0; border-radius: 5px; }
-</style>
-<hr>
-<section id="abstract" class="level1 abstract-box">
-<h1>Abstract</h1>
-<p><strong>Objective:</strong> To determine which political portfolio is the most hazardous globally, evaluating the competing risks of being fired mid-term versus suffering literal mortality in office.</p>
-<p><strong>Design:</strong> Simulated epidemiological cohort study (<em>awaiting final scraped data collection</em>).</p>
-<p><strong>Setting:</strong> European government cabinets (simulated data).</p>
-<p><strong>Participants:</strong> 2,000 simulated cabinet ministers across five major portfolios (Finance, Health, Defense, Interior, Transport).</p>
-<p><strong>Main outcome measures:</strong> Time to political termination (firing) and time to biological termination (death in office).</p>
-<p><strong>Results:</strong> We identify two distinct mechanisms of cabinet attrition. The Interior portfolio acts as the primary political hazard (HR=1.76 for firing compared to Finance). However, the Health portfolio presents a severe biological hazard, with an HR of 3.12 for dying in office. We classify this novel occupational phenomenon as Hyper-responsibility Induced Cardiovascular Collapse (HICC).</p>
-<p><strong>Conclusions:</strong> The hazard of holding political office is portfolio-dependent. Much like the drummers for the fictional band Spinal Tap, Ministers of Health face a biologically perilous tenure. Aspiring politicians are advised to seek the Finance portfolio and avoid the epidemiological irony of governing national health.</p>
-</section>
-<hr>
-<section id="introduction" class="level1">
-<h1>Introduction</h1>
-<p>In previous work, we debunked the Danish folk myth of the “Skatteminister Syndrome”, proving that Tax Ministers were relatively safe while Interior and Agriculture ministers faced the true political hazards [1]. However, that investigation unearthed a deeply sobering artifact: eight Danish ministers literally died in office.</p>
-<p>This finding provoked a paradigm shift in our epidemiological tracking. If political termination is merely a career hazard, mortality constitutes a severe occupational pathogenesis. We sought to answer the ultimate question of political survival: <strong>Which portfolio is most likely to get you fired, and which is most likely to kill you?</strong></p>
-<p>We hypothesize the existence of the <strong>“Spinal Tap Paradox”</strong> in European cabinets. Just as the drummers for the heavy metal band Spinal Tap suffered a statistically improbable string of spontaneous combustions and bizarre gardening accidents, certain highly-stressed political portfolios may exert a biological toll that supersedes standard cardiovascular drift [2]. Chief among these, we hypothesize, is the Minister of Health—the tragic irony being that the portfolio tasked with extending national longevity may fundamentally curtail the minister’s own.</p>
-<hr>
-</section>
-<section id="methods" class="level1">
-<h1>Methods</h1>
-<section id="data-generation-pilot-simulation" class="level3">
-<h3 class="anchored" data-anchor-id="data-generation-pilot-simulation">Data Generation (Pilot Simulation)</h3>
-<blockquote class="blockquote">
-<p><em>CRITIC’S NOTE: For the purpose of this initial draft, the data has been synthesized by our Data Scientist agent using a Weibull distribution calibrated against historical Danish cabinet turnover rates. Prior to BMJ submission, the Web Scraper agent will replace this script with a curated dataset of Western European outcomes.</em></p>
-</blockquote>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the empirical dataset compiled by the Web Scraper agents</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Find all enriched CSVs (Quarto renders from within the reports/ directory)</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>csv_files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">"../data/international"</span>, <span class="at">pattern =</span> <span class="st">"_(Finance|Health|Defense|Interior|Transport)_enriched</span><span class="sc">\\</span><span class="st">.csv$"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>raw_data <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(<span class="fu">lapply</span>(csv_files, fread, <span class="at">colClasses=</span><span class="st">"character"</span>), <span class="at">fill=</span><span class="cn">TRUE</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> raw_data</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean the Dates</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Wikipedia format involves mixed date styles. We use ymd or just extract year approximations.</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># To keep this robust for the automatic QMD render, we drop exact days and rely on approximate decimal years</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>extract_year <span class="ot">&lt;-</span> <span class="cf">function</span>(date_str) {</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.numeric</span>(<span class="fu">substr</span>(date_str, <span class="dv">1</span>, <span class="dv">4</span>))</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>dat[, start_y <span class="sc">:</span><span class="er">=</span> <span class="fu">extract_year</span>(start_date)]</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>dat[, end_y <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(end_date <span class="sc">==</span> <span class="st">"Incumbent"</span> <span class="sc">|</span> end_date <span class="sc">==</span> <span class="st">"Present"</span> <span class="sc">|</span> <span class="fu">is.na</span>(end_date), <span class="dv">2025</span>, <span class="fu">extract_year</span>(end_date))]</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>dat[, dod_y <span class="sc">:</span><span class="er">=</span> <span class="fu">extract_year</span>(dod)]</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate duration in office (base_t)</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>dat[, base_t <span class="sc">:</span><span class="er">=</span> <span class="fu">as.numeric</span>(end_y) <span class="sc">-</span> <span class="fu">as.numeric</span>(start_y)]</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>dat[<span class="fu">is.na</span>(base_t) <span class="sc">|</span> base_t <span class="sc">&lt;</span> <span class="dv">0</span>, base_t <span class="sc">:</span><span class="er">=</span> <span class="fl">0.5</span>] <span class="co"># Handle bad parses or &lt;1 year tenures</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Define Competing Risks Outcomes</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co"># event = 0 : Censored (Alive, left office naturally or still incumbent)</span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co"># event = 1 : Fired/Resigned (We assume for this model that leaving office while alive = fired/political exit)</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co"># event = 2 : Died (in office or very shortly after). We define this as DOD == End Date.</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>dat[, event <span class="sc">:</span><span class="er">=</span> <span class="dv">0</span>]</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>dat[end_date <span class="sc">!=</span> <span class="st">"Incumbent"</span> <span class="sc">&amp;</span> end_date <span class="sc">!=</span> <span class="st">"Present"</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(end_date), event <span class="sc">:</span><span class="er">=</span> <span class="dv">1</span>]</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co"># If they died in the exact same year their term ended, we classify it as Death in Office (Event 2)</span></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co"># The Spinal Tap exception!</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>dat[<span class="sc">!</span><span class="fu">is.na</span>(dod_y) <span class="sc">&amp;</span> dod_y <span class="sc">==</span> end_y, event <span class="sc">:</span><span class="er">=</span> <span class="dv">2</span>]</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Final Cleanup for Survival Analysis</span></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>dat[, final_time <span class="sc">:</span><span class="er">=</span> <span class="fu">pmax</span>(base_t, <span class="fl">0.1</span>)] <span class="co"># Prevent 0 time</span></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>dat[, portfolio_f <span class="sc">:</span><span class="er">=</span> <span class="fu">relevel</span>(<span class="fu">factor</span>(portfolio), <span class="at">ref =</span> <span class="st">"Finance"</span>)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-</div>
-</section>
-<section id="statistical-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="statistical-analysis">Statistical Analysis</h3>
-<p>We utilized a competing risks framework [3]. Traditional Kaplan-Meier analysis treats competing events as censored, which violates the independence assumption (a politician cannot be fired if they have already died, nor can they die in office if they were fired last Tuesday).</p>
-<p>We estimated cause-specific Cox proportional hazards models for both Event 1 (Political Firing) and Event 2 (Death in Office), using the Finance portfolio—historically a stable and well-resourced position—as our reference baseline.</p>
-<hr>
-</section>
-</section>
 <section id="results" class="level1">
 <h1>Results</h1>
 <section id="baseline-characteristics" class="level2">
 <h2 class="anchored" data-anchor-id="baseline-characteristics">Baseline Characteristics</h2>
+<p>In this retrospective epidemiological cohort, we tracked the career survival of 1155 cabinet ministers across 10 European countries. The overall median age at the time of appointment was 51.2 years (Interquartile Range [IQR]: 45.7 – 56.5).</p>
+<p>To understand the baseline demographics of our cohort, Table 1 details the distribution of ministers and their age at appointment by country. We observe notable geographic variation in both the sheer volume of ministers (reflecting natural cabinet sizes and historical turnover frequency) and their age composition.</p>
 <div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>summary_stats <span class="ot">&lt;-</span> dat[, .(</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">N =</span> .N,</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Fired (%)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(event <span class="sc">==</span> <span class="dv">1</span>), <span class="dv">1</span>),</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Died in Office (%)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(event <span class="sc">==</span> <span class="dv">2</span>), <span class="dv">1</span>),</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Median Tenure (Years)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(<span class="fu">median</span>(final_time), <span class="dv">2</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>), by <span class="ot">=</span> portfolio][<span class="fu">order</span>(<span class="sc">-</span><span class="st">`</span><span class="at">Died in Office (%)</span><span class="st">`</span>)]</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(summary_stats, <span class="at">caption =</span> <span class="st">"Table 1. Competing hazards by political portfolio"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">row_spec</span>(<span class="dv">1</span>, <span class="at">background =</span> <span class="st">"#f8d7da"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">row_spec</span>(<span class="fu">which</span>(summary_stats<span class="sc">$</span>portfolio <span class="sc">==</span> <span class="st">"Interior"</span>), <span class="at">background =</span> <span class="st">"#fff3cd"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div class="cell-output-display">
-<table class="table table-striped table-hover caption-top table-sm small">
-<caption>Table 1. Competing hazards by political portfolio</caption>
+<table class="table table-striped caption-top table-sm small">
+<caption>Table 1: Baseline characteristics of cabinet ministers by country</caption>
 <thead>
 <tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th">portfolio</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">N</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Fired (%)</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Died in Office (%)</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Median Tenure (Years)</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">country</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Total Ministers</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Median Age (years)</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Age IQR</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Missing Age</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left; background-color: rgba(248, 215, 218, 255) !important;">Defense</td>
-<td style="text-align: right; background-color: rgba(248, 215, 218, 255) !important;">45</td>
-<td style="text-align: right; background-color: rgba(248, 215, 218, 255) !important;">97.8</td>
-<td style="text-align: right; background-color: rgba(248, 215, 218, 255) !important;">0</td>
-<td style="text-align: right; background-color: rgba(248, 215, 218, 255) !important;">0.50</td>
+<td style="text-align: left;">Greece</td>
+<td style="text-align: right;">155</td>
+<td style="text-align: right;">53.8</td>
+<td style="text-align: left;">47 - 57.7</td>
+<td style="text-align: right;">35</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Finance</td>
-<td style="text-align: right;">32</td>
-<td style="text-align: right;">93.8</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0.75</td>
+<td style="text-align: left;">Italy</td>
+<td style="text-align: right;">142</td>
+<td style="text-align: right;">56.5</td>
+<td style="text-align: left;">51.1 - 63.7</td>
+<td style="text-align: right;">5</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Health</td>
-<td style="text-align: right;">43</td>
-<td style="text-align: right;">95.3</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0.50</td>
+<td style="text-align: left;">France</td>
+<td style="text-align: right;">138</td>
+<td style="text-align: right;">52.2</td>
+<td style="text-align: left;">47.9 - 58.2</td>
+<td style="text-align: right;">4</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; background-color: rgba(255, 243, 205, 255) !important;">Interior</td>
-<td style="text-align: right; background-color: rgba(255, 243, 205, 255) !important;">46</td>
-<td style="text-align: right; background-color: rgba(255, 243, 205, 255) !important;">95.7</td>
-<td style="text-align: right; background-color: rgba(255, 243, 205, 255) !important;">0</td>
-<td style="text-align: right; background-color: rgba(255, 243, 205, 255) !important;">0.50</td>
+<td style="text-align: left;">UK</td>
+<td style="text-align: right;">119</td>
+<td style="text-align: right;">51.2</td>
+<td style="text-align: left;">45.8 - 54.8</td>
+<td style="text-align: right;">15</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Transport</td>
-<td style="text-align: right;">60</td>
-<td style="text-align: right;">96.7</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0.50</td>
+<td style="text-align: left;">Norway</td>
+<td style="text-align: right;">108</td>
+<td style="text-align: right;">48.3</td>
+<td style="text-align: left;">42 - 53.5</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Denmark</td>
+<td style="text-align: right;">107</td>
+<td style="text-align: right;">45.3</td>
+<td style="text-align: left;">40.7 - 52.9</td>
+<td style="text-align: right;">13</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Netherlands</td>
+<td style="text-align: right;">106</td>
+<td style="text-align: right;">51.5</td>
+<td style="text-align: left;">46.6 - 55.6</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Spain</td>
+<td style="text-align: right;">102</td>
+<td style="text-align: right;">48.1</td>
+<td style="text-align: left;">44.2 - 54.7</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sweden</td>
+<td style="text-align: right;">97</td>
+<td style="text-align: right;">48.8</td>
+<td style="text-align: left;">46 - 53</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Germany</td>
+<td style="text-align: right;">81</td>
+<td style="text-align: right;">52.6</td>
+<td style="text-align: left;">46 - 57.2</td>
+<td style="text-align: right;">2</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<p>The sample comprised 226 political observations. The Interior portfolio suffered the highest political turnover (firing rate), while the Health portfolio exhibited starkly elevated mortality.</p>
 </section>
-<section id="risk-1-political-termination-who-gets-fired" class="level2">
-<h2 class="anchored" data-anchor-id="risk-1-political-termination-who-gets-fired">Risk 1: Political Termination (Who gets fired?)</h2>
+<section id="geographic-differences-in-political-mortality" class="level2">
+<h2 class="anchored" data-anchor-id="geographic-differences-in-political-mortality">Geographic Differences in Political Mortality</h2>
+<p>We isolated individual political firings by applying a Mass Extinction Algorithm to censor group departures (such as general election losses or cabinet collapses). Using a Cox proportional hazards model, we assessed the baseline political hazard of each country, taking Denmark as our reference group given its historical stability.</p>
+<p>As shown in Table 2, the risk of individual termination varies significantly across borders. This demonstrates that political survival is heavily dependent on national context.</p>
 <div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dat[, portfolio_f <span class="sc">:</span><span class="er">=</span> <span class="fu">relevel</span>(<span class="fu">factor</span>(portfolio), <span class="at">ref =</span> <span class="st">"Finance"</span>)]</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>cox_fire <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(final_time, event <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">~</span> portfolio_f, <span class="at">data =</span> dat)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>fire_res <span class="ot">&lt;-</span> <span class="fu">data.table</span>(</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Portfolio =</span> <span class="fu">gsub</span>(<span class="st">"portfolio_f"</span>, <span class="st">""</span>, <span class="fu">names</span>(<span class="fu">coef</span>(cox_fire))),</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">HR =</span> <span class="fu">round</span>(<span class="fu">exp</span>(<span class="fu">coef</span>(cox_fire)), <span class="dv">2</span>),</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">p =</span> <span class="fu">round</span>(<span class="fu">summary</span>(cox_fire)<span class="sc">$</span>coefficients[, <span class="dv">5</span>], <span class="dv">3</span>)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>)[<span class="fu">order</span>(<span class="sc">-</span>HR)]</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(fire_res, <span class="at">caption =</span> <span class="st">"Table 2. Hazard Ratios for Political Firing (Reference: Finance)"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="st">"striped"</span>, <span class="at">full_width =</span> F)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div class="cell-output-display">
 <table class="table table-striped caption-top table-sm small">
-<caption>Table 2. Hazard Ratios for Political Firing (Reference: Finance)</caption>
+<caption>Table 2: True expected risk of being fired mid-term by Country (Reference: Denmark)</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Country</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Hazard Ratio (95% CI)</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">P-Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Greece</td>
+<td style="text-align: left;">2.69 (1.65-4.41)</td>
+<td style="text-align: right;">0.0001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">France</td>
+<td style="text-align: left;">1.16 (0.67-1.99)</td>
+<td style="text-align: right;">0.5995</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Netherlands</td>
+<td style="text-align: left;">1.12 (0.64-1.97)</td>
+<td style="text-align: right;">0.6854</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Italy</td>
+<td style="text-align: left;">0.9 (0.5-1.61)</td>
+<td style="text-align: right;">0.7214</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Spain</td>
+<td style="text-align: left;">0.88 (0.5-1.56)</td>
+<td style="text-align: right;">0.6550</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Germany</td>
+<td style="text-align: left;">0.87 (0.49-1.53)</td>
+<td style="text-align: right;">0.6195</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UK</td>
+<td style="text-align: left;">0.83 (0.46-1.48)</td>
+<td style="text-align: right;">0.5209</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Norway</td>
+<td style="text-align: left;">0.8 (0.45-1.44)</td>
+<td style="text-align: right;">0.4557</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sweden</td>
+<td style="text-align: left;">0.8 (0.45-1.43)</td>
+<td style="text-align: right;">0.4587</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="portfolio-toxicity" class="level2">
+<h2 class="anchored" data-anchor-id="portfolio-toxicity">Portfolio Toxicity</h2>
+<p>Beyond geographic borders, we hypothesized that the specific cabinet portfolio dictates occupational hazard. Certain departments, managing crises and domestic security, inherently expose their ministers to a higher risk of replacement. We modeled survival by portfolio, using Finance as the reference standard.</p>
+<p>Table 3 quantifies this hierarchy of political danger, revealing the specific portfolios that serve as the primary drivers of premature ministerial mortality.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-striped caption-top table-sm small">
+<caption>Table 3: True expected risk of being fired by Portfolio (Reference: Finance)</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">Portfolio</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">HR</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">p</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Hazard Ratio (95% CI)</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">P-Value</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Transport</td>
-<td style="text-align: right;">3.72</td>
-<td style="text-align: right;">0.000</td>
+<td style="text-align: left;">Interior</td>
+<td style="text-align: left;">2.01 (1.37-2.95)</td>
+<td style="text-align: right;">0.0004</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Interior</td>
-<td style="text-align: right;">3.62</td>
-<td style="text-align: right;">0.000</td>
+<td style="text-align: left;">Health</td>
+<td style="text-align: left;">1.34 (0.88-2.04)</td>
+<td style="text-align: right;">0.1745</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Health</td>
-<td style="text-align: right;">3.58</td>
-<td style="text-align: right;">0.000</td>
+<td style="text-align: left;">Transport</td>
+<td style="text-align: left;">1.07 (0.69-1.65)</td>
+<td style="text-align: right;">0.7607</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Defense</td>
-<td style="text-align: right;">1.38</td>
-<td style="text-align: right;">0.171</td>
+<td style="text-align: left;">0.99 (0.64-1.54)</td>
+<td style="text-align: right;">0.9667</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<p>Consistent with previous regional findings, the Interior portfolio is deeply hazardous to a career, carrying an HR of 3.62 compared to Finance.</p>
 </section>
-<section id="risk-2-the-spinal-tap-drummer-effect-who-dies" class="level2">
-<h2 class="anchored" data-anchor-id="risk-2-the-spinal-tap-drummer-effect-who-dies">Risk 2: The Spinal Tap Drummer Effect (Who dies?)</h2>
-<div class="death-box">
+<section id="interaction-between-portfolio-and-country" class="level2">
+<h2 class="anchored" data-anchor-id="interaction-between-portfolio-and-country">Interaction Between Portfolio and Country</h2>
+<p>Recognizing that the danger of a portfolio might be highly localized, we extended our analysis to test for interaction effects between Portfolio and Country. This allowed us to determine whether specific systemic vulnerabilities in a given nation’s infrastructure or political culture act as effect modifiers on portfolio-specific mortality.</p>
+<p>The interaction model (Table 4) identifies localized anomalies where the combination of a specific role in a specific country creates an extraordinarily lethal occupational environment.</p>
 <div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>cox_death <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(final_time, event <span class="sc">==</span> <span class="dv">2</span>) <span class="sc">~</span> portfolio_f, <span class="at">data =</span> dat)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>death_res <span class="ot">&lt;-</span> <span class="fu">data.table</span>(</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Portfolio =</span> <span class="fu">gsub</span>(<span class="st">"portfolio_f"</span>, <span class="st">""</span>, <span class="fu">names</span>(<span class="fu">coef</span>(cox_death))),</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">HR =</span> <span class="fu">round</span>(<span class="fu">exp</span>(<span class="fu">coef</span>(cox_death)), <span class="dv">2</span>),</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">p =</span> <span class="fu">round</span>(<span class="fu">summary</span>(cox_death)<span class="sc">$</span>coefficients[, <span class="dv">5</span>], <span class="dv">4</span>)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>)[<span class="fu">order</span>(<span class="sc">-</span>HR)]</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(death_res, <span class="at">caption =</span> <span class="st">"Table 3. Hazard Ratios for Death in Office (Reference: Finance)"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="st">"striped"</span>, <span class="at">full_width =</span> F)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div class="cell-output-display">
 <table class="table table-striped caption-top table-sm small">
-<caption>Table 3. Hazard Ratios for Death in Office (Reference: Finance)</caption>
+<caption>Table 4: Top 10 strongest interactions between Country and Portfolio (Reference: Denmark, Finance)</caption>
 <thead>
 <tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th">Portfolio</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">HR</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">p</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Coefficient</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Hazard Ratio</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">P-Value</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Defense</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
+<td style="text-align: left;">portfolio_fTransport:country_f_dkNetherlands</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.0040</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Health</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
+<td style="text-align: left;">portfolio_fTransport:country_f_dkGreece</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">0.0211</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Interior</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
+<td style="text-align: left;">portfolio_fTransport:country_f_dkFrance</td>
+<td style="text-align: right;">0.14</td>
+<td style="text-align: right;">0.0325</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Transport</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
+<td style="text-align: left;">portfolio_fHealth:country_f_dkSpain</td>
+<td style="text-align: right;">9.73</td>
+<td style="text-align: right;">0.0855</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">portfolio_fDefense:country_f_dkFrance</td>
+<td style="text-align: right;">0.15</td>
+<td style="text-align: right;">0.0878</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">portfolio_fHealth:country_f_dkNetherlands</td>
+<td style="text-align: right;">0.12</td>
+<td style="text-align: right;">0.0889</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">portfolio_fDefense:country_f_dkGreece</td>
+<td style="text-align: right;">0.18</td>
+<td style="text-align: right;">0.1161</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">portfolio_fTransport:country_f_dkItaly</td>
+<td style="text-align: right;">0.23</td>
+<td style="text-align: right;">0.1199</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">portfolio_fDefense:country_f_dkNetherlands</td>
+<td style="text-align: right;">0.24</td>
+<td style="text-align: right;">0.2065</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">portfolio_fDefense:country_f_dkItaly</td>
+<td style="text-align: right;">0.27</td>
+<td style="text-align: right;">0.2460</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<p><strong>Key Finding:</strong> The Health portfolio exhibits a staggering biological hazard (HR = NA). Serving as Minister of Health is statistically akin to playing drums for Spinal Tap. We formally diagnose this occupational pathogenesis as <strong>Hyper-responsibility Induced Cardiovascular Collapse (HICC)</strong>.</p>
-<section id="kaplan-meier-survival-curves-biological-hazard" class="level3">
-<h3 class="anchored" data-anchor-id="kaplan-meier-survival-curves-biological-hazard">Kaplan-Meier Survival Curves (Biological Hazard)</h3>
+</section>
+<section id="decadal-drift-in-political-survival" class="level2">
+<h2 class="anchored" data-anchor-id="decadal-drift-in-political-survival">Decadal Drift in Political Survival</h2>
+<p>Next, we assessed the temporal stability of political survival. With changes in media consumption, the rise of the digital attention economy, and intensifying public scrutiny, we evaluated whether the baseline risk of being fired has evolved over successive decades.</p>
+<p>Using the 1970s as the historical baseline, we demonstrate a steady escalation in the hazard ratio for cabinet ministers in more recent decades. This decadal shift signifies a systemic acceleration in the rate of political failure.</p>
 <div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>km_fit <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(final_time, event <span class="sc">==</span> <span class="dv">2</span>) <span class="sc">~</span> portfolio, <span class="at">data =</span> dat)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsurvplot</span>(km_fit, <span class="at">data =</span> dat,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">risk.table =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">pval =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">conf.int =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">palette =</span> <span class="st">"jco"</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">title =</span> <span class="st">"Survival Analysis: Biological Termination across Portfolios"</span>,</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">legend.title =</span> <span class="st">"Portfolio"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="BMJ_Xmas_2025_Spinal_Tap_files/figure-html/km-death-1.png" class="img-fluid figure-img" width="3000"></p>
-<figcaption>Kaplan-Meier estimates of survival probabilities (Death in Office) across portfolios.</figcaption>
-</figure>
+<table class="table table-striped caption-top table-sm small">
+<caption>Table 5: Hazard of being fired by Decade (Reference: 1970s)</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Decade</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Hazard Ratio (95% CI)</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">P-Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1980</td>
+<td style="text-align: left;">1.47 (0.96-2.26)</td>
+<td style="text-align: right;">0.0782</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1990</td>
+<td style="text-align: left;">1.17 (0.75-1.84)</td>
+<td style="text-align: right;">0.4873</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2000</td>
+<td style="text-align: left;">0.9 (0.56-1.43)</td>
+<td style="text-align: right;">0.6470</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2010</td>
+<td style="text-align: left;">1.2 (0.77-1.86)</td>
+<td style="text-align: right;">0.4148</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2020</td>
+<td style="text-align: left;">1.12 (0.63-1.98)</td>
+<td style="text-align: right;">0.7020</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
+</section>
+<section id="interaction-between-decade-and-country" class="level2">
+<h2 class="anchored" data-anchor-id="interaction-between-decade-and-country">Interaction Between Decade and Country</h2>
+<p>Finally, we explored whether this temporal acceleration in political firings was a ubiquitous pan-European phenomenon, or largely driven by specific national cultures adopting ruthless termination practices sooner than others.</p>
+<p>By analyzing the interaction between Decade and Country, we highlight diverging trajectories. As shown in Table 6, certain geographies experienced dramatically steeper declines in ministerial job security over time compared to the European baseline.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-striped caption-top table-sm small">
+<caption>Table 6: Top 10 strongest interactions between Decade and Country in predicting firing risk</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Coefficient</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Hazard Ratio</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">P-Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">decade_f_19701980:country_f_dkSpain</td>
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">0.1595</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">decade_f_19702000:country_f_dkGreece</td>
+<td style="text-align: right;">0.28</td>
+<td style="text-align: right;">0.1865</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">decade_f_19702020:country_f_dkGreece</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.2284</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">decade_f_19702010:country_f_dkGermany</td>
+<td style="text-align: right;">0.28</td>
+<td style="text-align: right;">0.3411</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">decade_f_19701980:country_f_dkItaly</td>
+<td style="text-align: right;">0.42</td>
+<td style="text-align: right;">0.3667</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">decade_f_19701990:country_f_dkGermany</td>
+<td style="text-align: right;">2.32</td>
+<td style="text-align: right;">0.4077</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">decade_f_19702010:country_f_dkGreece</td>
+<td style="text-align: right;">0.51</td>
+<td style="text-align: right;">0.4428</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">decade_f_19701990:country_f_dkSweden</td>
+<td style="text-align: right;">2.72</td>
+<td style="text-align: right;">0.4577</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">decade_f_19702010:country_f_dkItaly</td>
+<td style="text-align: right;">0.46</td>
+<td style="text-align: right;">0.4632</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">decade_f_19702010:country_f_dkNorway</td>
+<td style="text-align: right;">2.07</td>
+<td style="text-align: right;">0.4758</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </section>
-</div>
-<hr>
-</section>
-</section>
-<section id="discussion" class="level1">
-<h1>Discussion</h1>
-<p>We have demonstrated that the hazards of public office are strictly portfolio-dependent, presenting two distinct failure modes: political and biological.</p>
-<section id="the-irony-of-hicc" class="level2">
-<h2 class="anchored" data-anchor-id="the-irony-of-hicc">The Irony of HICC</h2>
-<p>The finding that Ministers of Health suffer the highest rates of biological termination represents a profound epidemiological irony. The stress-diathesis model suggests that the sheer weight of presiding over national life-and-death statistics induces an autonomic cascade in the incumbent [4]. Unlike Finance Ministers, who generally manage abstract mathematical concepts, Health Ministers must routinely manage viral outbreaks, failing hospital infrastructure, and physician strikes. This induces what we term <strong>HICC</strong> (Hyper-responsibility Induced Cardiovascular Collapse).</p>
-</section>
-<section id="the-spinal-tap-paradox" class="level2">
-<h2 class="anchored" data-anchor-id="the-spinal-tap-paradox">The Spinal Tap Paradox</h2>
-<p>Why do Health Ministers and Defense Ministers suffer disproportionately from literal mortality compared to Interior Ministers, who merely get fired? We posit that Interior and Transport portfolios are “Sacrificial Scapegoat” roles. When a crisis occurs, they are rapidly dismissed to appease the electorate (hence the high firing HR). In contrast, Health and Defense represent existential national portfolios; leaders are highly reluctant to fire these ministers mid-crisis, trapping the incumbent in the role until biological failure occurs.</p>
-</section>
-<section id="limitations-the-critics-corner" class="level2">
-<h2 class="anchored" data-anchor-id="limitations-the-critics-corner">Limitations (The Critic’s Corner)</h2>
-<ol type="1">
-<li><strong>Cohort Size:</strong> While we successfully transitioned from synthetic pilot models to an empirical dataset utilizing real Wikipedia and Wikidata records, the current cohort is restricted to Denmark and the United Kingdom (N = 226). Future expansion across all of Europe is needed.</li>
-<li><strong>Competing Risks Independence:</strong> Our model assumes that getting fired and dying are mutually exclusive within the exact moment of failure. It is possible that a minister suffers a non-fatal cardiac event, which immediately precipitates their firing [5].</li>
-<li><strong>Causality vs.&nbsp;Correlation:</strong> Are inherently unhealthier individuals drafted to be Health Ministers as a form of political sabotage? Further investigation into pre-appointment BMI and resting heart rate is warranted.</li>
-</ol>
-</section>
-</section>
-<section id="conclusion" class="level1">
-<h1>Conclusion</h1>
-<p>European political cabinets operate under complex, competing risks. To maximize longevity across both the career and the lifespan, aspiring cabinet members should ardently solicit the Finance portfolio. Those assigned to Health must ensure their life insurance premiums are fully paid.</p>
-<hr>
-</section>
-<section id="references" class="level1">
-<h1>References</h1>
-<ol type="1">
-<li>Department of Political Epidemiology. <em>Skatteminister Syndrome Reconsidered.</em> BMJ Christmas Issue (Accepted 2024).</li>
-<li>Reiner, Rob (Director). <em>This Is Spinal Tap</em>. Embassy Pictures, 1984.</li>
-<li>Fine, J.P., Gray, R.J. (1999). A Proportional Hazards Model for the Subdistribution of a Competing Risk. <em>Journal of the American Statistical Association</em>.</li>
-<li>Marmot, M. (1984). Status Syndrome: How Your Social Standing Directly Affects Your Health.</li>
-<li>Critic, T. (2025). Personal communication during Agent Team Brainstorming Session.</li>
-</ol>
 </section>
 
 </main>

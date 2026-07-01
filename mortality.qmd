@@ -1,0 +1,9 @@
+---
+title: "Mortality Analysis"
+format:
+  md:
+    variant: gfm
+---
+```{r}
+source("scripts/mortality_analysis.R")
+```

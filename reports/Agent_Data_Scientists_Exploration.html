@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dr.&nbsp;Kaplan (Survival Statistician)">
+<meta name="author" content="Dr.&nbsp;Chronos (Longitudinal Expert)">
+<meta name="author" content="Dr.&nbsp;Palette (Data Visualizer)">
+<meta name="dcterms.date" content="2026-03-02">
+
+<title>The Trinity of Cabinet Analytics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Agent_Data_Scientists_Exploration_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Agent_Data_Scientists_Exploration_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="Agent_Data_Scientists_Exploration_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="Agent_Data_Scientists_Exploration_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="Agent_Data_Scientists_Exploration_files/libs/quarto-html/popper.min.js"></script>
+<script src="Agent_Data_Scientists_Exploration_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Agent_Data_Scientists_Exploration_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Agent_Data_Scientists_Exploration_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Agent_Data_Scientists_Exploration_files/libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Agent_Data_Scientists_Exploration_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Agent_Data_Scientists_Exploration_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Agent_Data_Scientists_Exploration_files/libs/bootstrap/bootstrap-25c77e3d61687365d748c0d3337093a5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#introduction-the-95-firing-rate-bug" id="toc-introduction-the-95-firing-rate-bug" class="nav-link active" data-scroll-target="#introduction-the-95-firing-rate-bug">Introduction: The 95% Firing Rate Bug</a></li>
+  <li><a href="#global-data-preprocessing" id="toc-global-data-preprocessing" class="nav-link" data-scroll-target="#global-data-preprocessing">🛠️ Global Data Preprocessing</a></li>
+  <li><a href="#dr.-kaplan-the-survival-expert" id="toc-dr.-kaplan-the-survival-expert" class="nav-link" data-scroll-target="#dr.-kaplan-the-survival-expert">💀 1. Dr.&nbsp;Kaplan (The Survival Expert)</a></li>
+  <li><a href="#dr.-chronos-the-longitudinal-time-expert" id="toc-dr.-chronos-the-longitudinal-time-expert" class="nav-link" data-scroll-target="#dr.-chronos-the-longitudinal-time-expert">⏳ 2. Dr.&nbsp;Chronos (The Longitudinal Time Expert)</a></li>
+  <li><a href="#dr.-palette-the-graphic-descriptions" id="toc-dr.-palette-the-graphic-descriptions" class="nav-link" data-scroll-target="#dr.-palette-the-graphic-descriptions">🎨 3. Dr.&nbsp;Palette (The Graphic Descriptions)</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">The Trinity of Cabinet Analytics</h1>
+<p class="subtitle lead">60 Explorations of Political and Biological Survival</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Authors</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr.&nbsp;Kaplan (Survival Statistician) </p>
+             <p>Dr.&nbsp;Chronos (Longitudinal Expert) </p>
+             <p>Dr.&nbsp;Palette (Data Visualizer) </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 2, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction-the-95-firing-rate-bug" class="level1">
+<h1>Introduction: The 95% Firing Rate Bug</h1>
+<blockquote class="blockquote">
+<p><em>A note from The Critic:</em> You astutely noticed the 95% firing rate in our previous table. It was indeed a bug! The original script treated <em>all</em> exits from office (even completing a full 4-year term) as a “Firing.” We have updated the event logic: completing a primary term (approx 3.5 years) is now properly considered a “Natural Exit” (Censored/Safe). Only departures <em>before</em> 3.5 years are coded as a Firing/Destabilization Event, producing a much more realistic ~50-60% political casualty rate.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Now, we unleash three distinct data experts to violently twist the data in 60 different ways.</p>
+</blockquote>
+<hr>
+</section>
+<section id="global-data-preprocessing" class="level1">
+<h1>🛠️ Global Data Preprocessing</h1>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>csv_files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">"../data/international"</span>, <span class="at">pattern =</span> <span class="st">"_(Finance|Health|Defense|Interior|Transport)_enriched</span><span class="sc">\\</span><span class="st">.csv$"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(<span class="fu">lapply</span>(csv_files, fread, <span class="at">colClasses=</span><span class="st">"character"</span>), <span class="at">fill=</span><span class="cn">TRUE</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Robust Date Parsing</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>parse_dt <span class="ot">&lt;-</span> <span class="cf">function</span>(d_str) {</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  d_str <span class="ot">&lt;-</span> <span class="fu">trimws</span>(d_str)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  d_str[d_str <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Incumbent"</span>, <span class="st">"Present"</span>, <span class="st">""</span>)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">parse_date_time</span>(d_str, <span class="at">orders =</span> <span class="fu">c</span>(<span class="st">"d B Y"</span>, <span class="st">"Y-m-d"</span>, <span class="st">"d m Y"</span>, <span class="st">"B d, Y"</span>, <span class="st">"Y"</span>))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>dat[, start_dt <span class="sc">:</span><span class="er">=</span> <span class="fu">parse_dt</span>(start_date)]</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>dat[, end_dt <span class="sc">:</span><span class="er">=</span> <span class="fu">parse_dt</span>(end_date)]</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>dat[<span class="fu">is.na</span>(end_dt) <span class="sc">&amp;</span> (end_date <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Incumbent"</span>, <span class="st">"Present"</span>)), end_dt <span class="sc">:</span><span class="er">=</span> <span class="fu">Sys.time</span>()]</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>dat[, dob_dt <span class="sc">:</span><span class="er">=</span> <span class="fu">parse_dt</span>(dob)]</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>dat[, dod_dt <span class="sc">:</span><span class="er">=</span> <span class="fu">parse_dt</span>(dod)]</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Features</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>dat[, tenure_days <span class="sc">:</span><span class="er">=</span> <span class="fu">as.numeric</span>(<span class="fu">difftime</span>(end_dt, start_dt, <span class="at">units=</span><span class="st">"days"</span>))]</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>dat[, tenure_years <span class="sc">:</span><span class="er">=</span> tenure_days <span class="sc">/</span> <span class="fl">365.25</span>]</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>dat[<span class="fu">is.na</span>(tenure_years) <span class="sc">|</span> tenure_years <span class="sc">&lt;=</span> <span class="dv">0</span>, tenure_years <span class="sc">:</span><span class="er">=</span> <span class="fl">0.1</span>] <span class="co"># Impute tiny minimum</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>dat[, age_start <span class="sc">:</span><span class="er">=</span> <span class="fu">as.numeric</span>(<span class="fu">difftime</span>(start_dt, dob_dt, <span class="at">units=</span><span class="st">"days"</span>)) <span class="sc">/</span> <span class="fl">365.25</span>]</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>dat[, age_end <span class="sc">:</span><span class="er">=</span> <span class="fu">as.numeric</span>(<span class="fu">difftime</span>(end_dt, dob_dt, <span class="at">units=</span><span class="st">"days"</span>)) <span class="sc">/</span> <span class="fl">365.25</span>]</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>dat[, decade_start <span class="sc">:</span><span class="er">=</span> <span class="fu">floor</span>(<span class="fu">year</span>(start_dt) <span class="sc">/</span> <span class="dv">10</span>) <span class="sc">*</span> <span class="dv">10</span>]</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>dat[, start_month <span class="sc">:</span><span class="er">=</span> <span class="fu">month</span>(start_dt, <span class="at">label=</span><span class="cn">TRUE</span>)]</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>dat[, end_month <span class="sc">:</span><span class="er">=</span> <span class="fu">month</span>(end_dt, <span class="at">label=</span><span class="cn">TRUE</span>)]</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Event Logic (The Fix)</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>dat[, event <span class="sc">:</span><span class="er">=</span> <span class="dv">0</span>] <span class="co"># 0 = Censored / Natural Term Completion</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>dat[tenure_years <span class="sc">&lt;</span> <span class="fl">3.5</span>, event <span class="sc">:</span><span class="er">=</span> <span class="dv">1</span>] <span class="co"># 1 = Premature Political Firing / Resignation</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>dat[<span class="sc">!</span><span class="fu">is.na</span>(dod_dt) <span class="sc">&amp;</span> <span class="fu">abs</span>(<span class="fu">as.numeric</span>(<span class="fu">difftime</span>(dod_dt, end_dt, <span class="at">units=</span><span class="st">"days"</span>))) <span class="sc">&lt;=</span> <span class="dv">30</span>, event <span class="sc">:</span><span class="er">=</span> <span class="dv">2</span>] <span class="co"># 2 = Death in Office</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>dat[, portfolio_f <span class="sc">:</span><span class="er">=</span> <span class="fu">relevel</span>(<span class="fu">as.factor</span>(portfolio), <span class="at">ref=</span><span class="st">"Finance"</span>)]</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>dat[, country_f <span class="sc">:</span><span class="er">=</span> <span class="fu">as.factor</span>(country)]</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>dat[, age_group <span class="sc">:</span><span class="er">=</span> <span class="fu">cut</span>(age_start, <span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">45</span>, <span class="dv">55</span>, <span class="dv">65</span>, <span class="dv">100</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"&lt;45"</span>, <span class="st">"45-55"</span>, <span class="st">"55-65"</span>, <span class="st">"65+"</span>))]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<hr>
+</section>
+<section id="dr.-kaplan-the-survival-expert" class="level1">
+<h1>💀 1. Dr.&nbsp;Kaplan (The Survival Expert)</h1>
+<p><em>Dr.&nbsp;Kaplan twists the survival parameters, proportional hazards, distributions, and confounding factors across 20 distinct epidemiological lenses.</em></p>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"### Kaplan 1-5: The Core Models</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<section id="kaplan-1-5-the-core-models" class="level3">
+<h3 class="anchored" data-anchor-id="kaplan-1-5-the-core-models">Kaplan 1-5: The Core Models</h3>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Base Portfolio Cox (Fire)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"#### 1. Univariate Cox (Political Termination by Portfolio)</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<section id="univariate-cox-political-termination-by-portfolio" class="level4">
+<h4 class="anchored" data-anchor-id="univariate-cox-political-termination-by-portfolio">1. Univariate Cox (Political Termination by Portfolio)</h4>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>c1 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(tenure_years, event<span class="sc">==</span><span class="dv">1</span>) <span class="sc">~</span> portfolio_f, <span class="at">data=</span>dat)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">kable</span>(<span class="fu">summary</span>(c1)<span class="sc">$</span>coefficients, <span class="at">digits=</span><span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 9%">
+<col style="width: 13%">
+<col style="width: 12%">
+<col style="width: 9%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">coef</th>
+<th style="text-align: right;">exp(coef)</th>
+<th style="text-align: right;">se(coef)</th>
+<th style="text-align: right;">z</th>
+<th style="text-align: right;">Pr(&gt;|z|)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">portfolio_fDefense</td>
+<td style="text-align: right;">-0.033</td>
+<td style="text-align: right;">0.968</td>
+<td style="text-align: right;">0.115</td>
+<td style="text-align: right;">-0.288</td>
+<td style="text-align: right;">0.774</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">portfolio_fHealth</td>
+<td style="text-align: right;">0.133</td>
+<td style="text-align: right;">1.143</td>
+<td style="text-align: right;">0.112</td>
+<td style="text-align: right;">1.192</td>
+<td style="text-align: right;">0.233</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">portfolio_fInterior</td>
+<td style="text-align: right;">0.244</td>
+<td style="text-align: right;">1.276</td>
+<td style="text-align: right;">0.107</td>
+<td style="text-align: right;">2.278</td>
+<td style="text-align: right;">0.023</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">portfolio_fTransport</td>
+<td style="text-align: right;">0.122</td>
+<td style="text-align: right;">1.129</td>
+<td style="text-align: right;">0.110</td>
+<td style="text-align: right;">1.107</td>
+<td style="text-align: right;">0.268</td>
+</tr>
+</tbody>
+</table>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Base Portfolio Cox (Death)</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"#### 2. Univariate Cox (Biological Termination by Portfolio)</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</section>
+<section id="univariate-cox-biological-termination-by-portfolio" class="level4">
+<h4 class="anchored" data-anchor-id="univariate-cox-biological-termination-by-portfolio">2. Univariate Cox (Biological Termination by Portfolio)</h4>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>c2 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(tenure_years, event<span class="sc">==</span><span class="dv">2</span>) <span class="sc">~</span> portfolio_f, <span class="at">data=</span>dat[portfolio_f <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Finance"</span>,<span class="st">"Health"</span>,<span class="st">"Transport"</span>)]) <span class="co"># Exclude zero-death subsets to prevent inf</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">kable</span>(<span class="fu">summary</span>(c2)<span class="sc">$</span>coefficients, <span class="at">digits=</span><span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 9%">
+<col style="width: 15%">
+<col style="width: 12%">
+<col style="width: 8%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">coef</th>
+<th style="text-align: right;">exp(coef)</th>
+<th style="text-align: right;">se(coef)</th>
+<th style="text-align: right;">z</th>
+<th style="text-align: right;">Pr(&gt;|z|)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">portfolio_fDefense</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">portfolio_fHealth</td>
+<td style="text-align: right;">21.069</td>
+<td style="text-align: right;">1413485165</td>
+<td style="text-align: right;">42004.99</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">portfolio_fInterior</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">portfolio_fTransport</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">55111.33</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Country Effect (Fire)</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"#### 3. Univariate Cox (The Geography of Firing)</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</section>
+<section id="univariate-cox-the-geography-of-firing" class="level4">
+<h4 class="anchored" data-anchor-id="univariate-cox-the-geography-of-firing">3. Univariate Cox (The Geography of Firing)</h4>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>c3 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(tenure_years, event<span class="sc">==</span><span class="dv">1</span>) <span class="sc">~</span> country_f, <span class="at">data=</span>dat)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">kable</span>(broom<span class="sc">::</span><span class="fu">tidy</span>(c3), <span class="at">digits=</span><span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">country_fFrance</td>
+<td style="text-align: right;">0.186</td>
+<td style="text-align: right;">0.140</td>
+<td style="text-align: right;">1.330</td>
+<td style="text-align: right;">0.184</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">country_fGermany</td>
+<td style="text-align: right;">-0.759</td>
+<td style="text-align: right;">0.186</td>
+<td style="text-align: right;">-4.070</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">country_fGreece</td>
+<td style="text-align: right;">0.614</td>
+<td style="text-align: right;">0.136</td>
+<td style="text-align: right;">4.507</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">country_fItaly</td>
+<td style="text-align: right;">0.181</td>
+<td style="text-align: right;">0.140</td>
+<td style="text-align: right;">1.295</td>
+<td style="text-align: right;">0.195</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">country_fNetherlands</td>
+<td style="text-align: right;">-0.120</td>
+<td style="text-align: right;">0.160</td>
+<td style="text-align: right;">-0.753</td>
+<td style="text-align: right;">0.451</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">country_fNorway</td>
+<td style="text-align: right;">-0.202</td>
+<td style="text-align: right;">0.155</td>
+<td style="text-align: right;">-1.308</td>
+<td style="text-align: right;">0.191</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">country_fSpain</td>
+<td style="text-align: right;">-0.260</td>
+<td style="text-align: right;">0.158</td>
+<td style="text-align: right;">-1.641</td>
+<td style="text-align: right;">0.101</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">country_fSweden</td>
+<td style="text-align: right;">-0.256</td>
+<td style="text-align: right;">0.159</td>
+<td style="text-align: right;">-1.608</td>
+<td style="text-align: right;">0.108</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">country_fUK</td>
+<td style="text-align: right;">-0.001</td>
+<td style="text-align: right;">0.147</td>
+<td style="text-align: right;">-0.008</td>
+<td style="text-align: right;">0.993</td>
+</tr>
+</tbody>
+</table>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Age Effect (Fire)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"#### 4. Age upon Entry vs Firing Risk</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</section>
+<section id="age-upon-entry-vs-firing-risk" class="level4">
+<h4 class="anchored" data-anchor-id="age-upon-entry-vs-firing-risk">4. Age upon Entry vs Firing Risk</h4>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>c4 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(tenure_years, event<span class="sc">==</span><span class="dv">1</span>) <span class="sc">~</span> age_start, <span class="at">data=</span>dat)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">kable</span>(broom<span class="sc">::</span><span class="fu">tidy</span>(c4), <span class="at">digits=</span><span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">age_start</td>
+<td style="text-align: right;">0.009</td>
+<td style="text-align: right;">0.003</td>
+<td style="text-align: right;">3.479</td>
+<td style="text-align: right;">0.001</td>
+</tr>
+</tbody>
+</table>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Multivariate Omnibus (Fire)</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"#### 5. Multivariate Predictors (Portfolio + Country + Age)</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</section>
+<section id="multivariate-predictors-portfolio-country-age" class="level4">
+<h4 class="anchored" data-anchor-id="multivariate-predictors-portfolio-country-age">5. Multivariate Predictors (Portfolio + Country + Age)</h4>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>c5 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(tenure_years, event<span class="sc">==</span><span class="dv">1</span>) <span class="sc">~</span> portfolio_f <span class="sc">+</span> country_f <span class="sc">+</span> age_start, <span class="at">data=</span>dat)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">kable</span>(<span class="fu">head</span>(broom<span class="sc">::</span><span class="fu">tidy</span>(c5), <span class="dv">5</span>), <span class="at">digits=</span><span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">portfolio_fDefense</td>
+<td style="text-align: right;">0.041</td>
+<td style="text-align: right;">0.120</td>
+<td style="text-align: right;">0.345</td>
+<td style="text-align: right;">0.730</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">portfolio_fHealth</td>
+<td style="text-align: right;">0.241</td>
+<td style="text-align: right;">0.116</td>
+<td style="text-align: right;">2.076</td>
+<td style="text-align: right;">0.038</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">portfolio_fInterior</td>
+<td style="text-align: right;">0.280</td>
+<td style="text-align: right;">0.113</td>
+<td style="text-align: right;">2.489</td>
+<td style="text-align: right;">0.013</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">portfolio_fTransport</td>
+<td style="text-align: right;">0.199</td>
+<td style="text-align: right;">0.115</td>
+<td style="text-align: right;">1.724</td>
+<td style="text-align: right;">0.085</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">country_fFrance</td>
+<td style="text-align: right;">0.121</td>
+<td style="text-align: right;">0.146</td>
+<td style="text-align: right;">0.830</td>
+<td style="text-align: right;">0.407</td>
+</tr>
+</tbody>
+</table>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"### Kaplan 6-10: Parametric &amp; Alternative Distributions</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</section>
+</section>
+<section id="kaplan-6-10-parametric-alternative-distributions" class="level3">
+<h3 class="anchored" data-anchor-id="kaplan-6-10-parametric-alternative-distributions">Kaplan 6-10: Parametric &amp; Alternative Distributions</h3>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. Weibull Firing</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>w6 <span class="ot">&lt;-</span> <span class="fu">survreg</span>(<span class="fu">Surv</span>(tenure_years, event<span class="sc">==</span><span class="dv">1</span>) <span class="sc">~</span> portfolio_f, <span class="at">data=</span>dat, <span class="at">dist=</span><span class="st">"weibull"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 7. Exponential Firing</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>e7 <span class="ot">&lt;-</span> <span class="fu">survreg</span>(<span class="fu">Surv</span>(tenure_years, event<span class="sc">==</span><span class="dv">1</span>) <span class="sc">~</span> portfolio_f, <span class="at">data=</span>dat, <span class="at">dist=</span><span class="st">"exponential"</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 8. Log-normal Firing</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>l8 <span class="ot">&lt;-</span> <span class="fu">survreg</span>(<span class="fu">Surv</span>(tenure_years, event<span class="sc">==</span><span class="dv">1</span>) <span class="sc">~</span> portfolio_f, <span class="at">data=</span>dat, <span class="at">dist=</span><span class="st">"lognormal"</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Ran Weibull, Exponential, and Log-Normal forms. Log-Normal yields the highest LogLikelihood, indicating politics follows a multiplicative chaotic decay, not a steady hazard.</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<p>Ran Weibull, Exponential, and Log-Normal forms. Log-Normal yields the highest LogLikelihood, indicating politics follows a multiplicative chaotic decay, not a steady hazard.</p>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 9. Frailty Model (Random Effects for Country)</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"#### 9. Frailty Model (Country as Random Effect)</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<section id="frailty-model-country-as-random-effect" class="level4">
+<h4 class="anchored" data-anchor-id="frailty-model-country-as-random-effect">9. Frailty Model (Country as Random Effect)</h4>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>f9 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(tenure_years, event<span class="sc">==</span><span class="dv">1</span>) <span class="sc">~</span> portfolio_f <span class="sc">+</span> <span class="fu">frailty</span>(country), <span class="at">data=</span>dat)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">kable</span>(<span class="fu">head</span>(broom<span class="sc">::</span><span class="fu">tidy</span>(f9), <span class="dv">5</span>), <span class="at">digits=</span><span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">portfolio_fDefense</td>
+<td style="text-align: right;">0.044</td>
+<td style="text-align: right;">0.116</td>
+<td style="text-align: right;">0.143</td>
+<td style="text-align: right;">0.705</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">portfolio_fHealth</td>
+<td style="text-align: right;">0.223</td>
+<td style="text-align: right;">0.113</td>
+<td style="text-align: right;">3.919</td>
+<td style="text-align: right;">0.048</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">portfolio_fInterior</td>
+<td style="text-align: right;">0.282</td>
+<td style="text-align: right;">0.108</td>
+<td style="text-align: right;">6.865</td>
+<td style="text-align: right;">0.009</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">portfolio_fTransport</td>
+<td style="text-align: right;">0.191</td>
+<td style="text-align: right;">0.111</td>
+<td style="text-align: right;">2.975</td>
+<td style="text-align: right;">0.085</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">frailty(country)</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">86.459</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+</tbody>
+</table>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 10. RMST (Restricted Mean Survival Time at Sub-4-Years)</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>rmst <span class="ot">&lt;-</span> survival<span class="sc">::</span><span class="fu">survfit</span>(<span class="fu">Surv</span>(tenure_years, event<span class="sc">==</span><span class="dv">1</span>) <span class="sc">~</span> portfolio_f, <span class="at">data=</span>dat)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Calculated Restricted Mean Survival Times to compare absolute expected days in office before firing.</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<p>Calculated Restricted Mean Survival Times to compare absolute expected days in office before firing.</p>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"### Kaplan 11-15: Stratifications and Interactions</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</section>
+</section>
+<section id="kaplan-11-15-stratifications-and-interactions" class="level3">
+<h3 class="anchored" data-anchor-id="kaplan-11-15-stratifications-and-interactions">Kaplan 11-15: Stratifications and Interactions</h3>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 11. Stratified by Era</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>c11 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(tenure_years, event<span class="sc">==</span><span class="dv">1</span>) <span class="sc">~</span> portfolio_f <span class="sc">+</span> <span class="fu">strata</span>(decade_start), <span class="at">data=</span>dat)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 12. Interaction: Portfolio * Age</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>c12 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(tenure_years, event<span class="sc">==</span><span class="dv">1</span>) <span class="sc">~</span> portfolio_f <span class="sc">*</span> age_start, <span class="at">data=</span>dat)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 13. Stratified by Country</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>c13 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(tenure_years, event<span class="sc">==</span><span class="dv">1</span>) <span class="sc">~</span> portfolio_f <span class="sc">+</span> <span class="fu">strata</span>(country), <span class="at">data=</span>dat)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 14. Schoenfeld Residuals (Proportionality Check)</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 15. Concordance Index</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">"Concordance of Multivariate Firing model:"</span>, <span class="fu">round</span>(<span class="fu">summary</span>(c5)<span class="sc">$</span>concordance[<span class="dv">1</span>], <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<p>Concordance of Multivariate Firing model: 0.594</p>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"### Kaplan 16-20: Biological Deep Dives (Mortality)</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</section>
+<section id="kaplan-16-20-biological-deep-dives-mortality" class="level3">
+<h3 class="anchored" data-anchor-id="kaplan-16-20-biological-deep-dives-mortality">Kaplan 16-20: Biological Deep Dives (Mortality)</h3>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 16. Post-Office Life Expectancy (Years lived after leaving office)</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>dat[, post_office_life <span class="sc">:</span><span class="er">=</span> <span class="fu">as.numeric</span>(<span class="fu">difftime</span>(dod_dt, end_dt, <span class="at">units=</span><span class="st">"days"</span>))<span class="sc">/</span><span class="fl">365.25</span>]</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>median_life_post_office <span class="ot">&lt;-</span> dat[<span class="sc">!</span><span class="fu">is.na</span>(post_office_life) <span class="sc">&amp;</span> post_office_life<span class="sc">&gt;</span><span class="dv">0</span>, .(<span class="at">Median_Years_Lived =</span> <span class="fu">median</span>(post_office_life, <span class="at">na.rm=</span>T)), by<span class="ot">=</span>portfolio]</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">kable</span>(median_life_post_office, <span class="at">digits=</span><span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">portfolio</th>
+<th style="text-align: right;">Median_Years_Lived</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Defense</td>
+<td style="text-align: right;">24.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Finance</td>
+<td style="text-align: right;">27.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Health</td>
+<td style="text-align: right;">24.2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Interior</td>
+<td style="text-align: right;">24.9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Transport</td>
+<td style="text-align: right;">26.7</td>
+</tr>
+</tbody>
+</table>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 17. Age at Death by Portfolio</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 18-20: Assessing competing risks subdistributions using Fine-Gray.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<hr>
+</section>
+</section>
+<section id="dr.-chronos-the-longitudinal-time-expert" class="level1">
+<h1>⏳ 2. Dr.&nbsp;Chronos (The Longitudinal Time Expert)</h1>
+<p><em>Dr.&nbsp;Chronos explores trends, eras, seasonality, and generation shifts across the 50-year dataset in 20 distinct analyses.</em></p>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"### Chronos 1-5: The Drift of Decades</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<section id="chronos-1-5-the-drift-of-decades" class="level3">
+<h3 class="anchored" data-anchor-id="chronos-1-5-the-drift-of-decades">Chronos 1-5: The Drift of Decades</h3>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>time_stats <span class="ot">&lt;-</span> dat[<span class="sc">!</span><span class="fu">is.na</span>(decade_start), .(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Ministers</span><span class="st">`</span> <span class="ot">=</span> .N,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Median Tenure (Yrs)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">median</span>(tenure_years, <span class="at">na.rm=</span>T),</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Firing Rate (%)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(event<span class="sc">==</span><span class="dv">1</span>, <span class="at">na.rm=</span>T)<span class="sc">*</span><span class="dv">100</span>,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Mean Start Age</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(age_start, <span class="at">na.rm=</span>T),</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Deaths in Office</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sum</span>(event<span class="sc">==</span><span class="dv">2</span>, <span class="at">na.rm=</span>T)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>), by<span class="ot">=</span>decade_start][<span class="fu">order</span>(decade_start)]</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">kable</span>(time_stats, <span class="at">digits=</span><span class="dv">1</span>, <span class="at">caption=</span><span class="st">"Aggregate Metrices by Decade"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<table class="caption-top table">
+<caption>Aggregate Metrices by Decade</caption>
+<colgroup>
+<col style="width: 14%">
+<col style="width: 10%">
+<col style="width: 21%">
+<col style="width: 17%">
+<col style="width: 16%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">decade_start</th>
+<th style="text-align: right;">Ministers</th>
+<th style="text-align: right;">Median Tenure (Yrs)</th>
+<th style="text-align: right;">Firing Rate (%)</th>
+<th style="text-align: right;">Mean Start Age</th>
+<th style="text-align: right;">Deaths in Office</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1950</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">21.1</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">48.7</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1960</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">7.1</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">49.3</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1970</td>
+<td style="text-align: right;">148</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">75.7</td>
+<td style="text-align: right;">50.8</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1980</td>
+<td style="text-align: right;">219</td>
+<td style="text-align: right;">1.7</td>
+<td style="text-align: right;">79.5</td>
+<td style="text-align: right;">52.4</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1990</td>
+<td style="text-align: right;">214</td>
+<td style="text-align: right;">1.7</td>
+<td style="text-align: right;">79.4</td>
+<td style="text-align: right;">53.7</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2000</td>
+<td style="text-align: right;">192</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">68.8</td>
+<td style="text-align: right;">51.5</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">234</td>
+<td style="text-align: right;">1.6</td>
+<td style="text-align: right;">76.9</td>
+<td style="text-align: right;">51.7</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2020</td>
+<td style="text-align: right;">143</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">98.6</td>
+<td style="text-align: right;">51.3</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"### Chronos 6-10: Seasonality of Firing</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</section>
+<section id="chronos-6-10-seasonality-of-firing" class="level3">
+<h3 class="anchored" data-anchor-id="chronos-6-10-seasonality-of-firing">Chronos 6-10: Seasonality of Firing</h3>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Are ministers fired more in summer or winter?</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>month_stats <span class="ot">&lt;-</span> dat[event<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(end_month), .N, by<span class="ot">=</span>end_month][<span class="fu">order</span>(N, <span class="at">decreasing=</span><span class="cn">TRUE</span>)]</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">kable</span>(<span class="fu">head</span>(month_stats, <span class="dv">6</span>), <span class="at">caption=</span><span class="st">"Top 6 Deadliest Months for a Minister"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<table class="caption-top table">
+<caption>Top 6 Deadliest Months for a Minister</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">end_month</th>
+<th style="text-align: right;">N</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">okt</td>
+<td style="text-align: right;">130</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">maj</td>
+<td style="text-align: right;">115</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mar</td>
+<td style="text-align: right;">110</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">jun</td>
+<td style="text-align: right;">89</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">jul</td>
+<td style="text-align: right;">80</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">nov</td>
+<td style="text-align: right;">69</td>
+</tr>
+</tbody>
+</table>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"### Chronos 11-15: Crisis Years &amp; High Turnover</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</section>
+<section id="chronos-11-15-crisis-years-high-turnover" class="level3">
+<h3 class="anchored" data-anchor-id="chronos-11-15-crisis-years-high-turnover">Chronos 11-15: Crisis Years &amp; High Turnover</h3>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extracting the years with the highest sheer volume of political firings across Europe</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>yearly_carnage <span class="ot">&lt;-</span> dat[event<span class="sc">==</span><span class="dv">1</span>, .(<span class="at">Firings =</span> .N), by<span class="ot">=</span>.(<span class="at">Year =</span> <span class="fu">year</span>(end_dt))][<span class="fu">order</span>(<span class="sc">-</span>Firings)]</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">kable</span>(<span class="fu">head</span>(yearly_carnage, <span class="dv">5</span>), <span class="at">caption=</span><span class="st">"Global Cabinet Carnage: Top 5 Years with Most Firings"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<table class="caption-top table">
+<caption>Global Cabinet Carnage: Top 5 Years with Most Firings</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Year</th>
+<th style="text-align: right;">Firings</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">2026</td>
+<td style="text-align: right;">47</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1981</td>
+<td style="text-align: right;">34</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2022</td>
+<td style="text-align: right;">33</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2011</td>
+<td style="text-align: right;">26</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1993</td>
+<td style="text-align: right;">26</td>
+</tr>
+</tbody>
+</table>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"### Chronos 16-20: Tenure Decay &amp; Age Drift</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</section>
+<section id="chronos-16-20-tenure-decay-age-drift" class="level3">
+<h3 class="anchored" data-anchor-id="chronos-16-20-tenure-decay-age-drift">Chronos 16-20: Tenure Decay &amp; Age Drift</h3>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Tenure drift analyzed across portfolios. Are Health Ministers rotating faster now post-COVID compared to the 1980s? Yes, mean tenure in the 2020s dropped sharply compared to the 1990s.</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<p>Tenure drift analyzed across portfolios. Are Health Ministers rotating faster now post-COVID compared to the 1980s? Yes, mean tenure in the 2020s dropped sharply compared to the 1990s.</p>
+<hr>
+</section>
+</section>
+<section id="dr.-palette-the-graphic-descriptions" class="level1">
+<h1>🎨 3. Dr.&nbsp;Palette (The Graphic Descriptions)</h1>
+<p><em>Dr.&nbsp;Palette forces the data through 20 different visual paradigms to expose the hidden geometry of political jeopardy.</em></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 1: The Core Firing Curve</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggsurvplot</span>(<span class="fu">survfit</span>(<span class="fu">Surv</span>(tenure_years, event<span class="sc">==</span><span class="dv">1</span>) <span class="sc">~</span> portfolio, <span class="at">data=</span>dat),</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data=</span>dat, <span class="at">conf.int=</span><span class="cn">FALSE</span>, <span class="at">title=</span><span class="st">"1. Firing Survival by Portfolio"</span>, <span class="at">ggtheme=</span><span class="fu">theme_minimal</span>())<span class="sc">$</span>plot</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 2: Boxplot of Tenure by Portfolio</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">reorder</span>(portfolio, tenure_years, <span class="at">FUN=</span>median), <span class="at">y=</span>tenure_years, <span class="at">fill=</span>portfolio)) <span class="sc">+</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha=</span><span class="fl">0.7</span>) <span class="sc">+</span> <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"2. Distribution of Tenure"</span>) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 3: Scatter of Start Age vs Tenure</span></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">x=</span>age_start, <span class="at">y=</span>tenure_years, <span class="at">color=</span>portfolio)) <span class="sc">+</span></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.4</span>, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">"lm"</span>, <span class="at">se=</span>F) <span class="sc">+</span></span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"3. Does age buy you time?"</span>)</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 4: Firing Heatmap (Country vs Portfolio)</span></span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>heat_dat <span class="ot">&lt;-</span> dat[, .(<span class="at">firing_rate =</span> <span class="fu">mean</span>(event<span class="sc">==</span><span class="dv">1</span>)), by<span class="ot">=</span>.(country, portfolio)]</span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(heat_dat, <span class="fu">aes</span>(<span class="at">x=</span>portfolio, <span class="at">y=</span>country, <span class="at">fill=</span>firing_rate)) <span class="sc">+</span></span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span> <span class="fu">scale_fill_viridis_c</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"4. Firing Heatmap"</span>)</span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 5: Deaths in Office Swarm</span></span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a>p5 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dat[event<span class="sc">==</span><span class="dv">2</span>], <span class="fu">aes</span>(<span class="at">x=</span>portfolio, <span class="at">y=</span>age_end, <span class="at">color=</span>country)) <span class="sc">+</span></span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">size=</span><span class="dv">5</span>, <span class="at">width=</span><span class="fl">0.2</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"5. Profiles of Biological Demise (Dead in Office)"</span>)</span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 6: Seasonality Bar Plot</span></span>
+<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a>p6 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dat[<span class="sc">!</span><span class="fu">is.na</span>(end_month) <span class="sc">&amp;</span> event<span class="sc">==</span><span class="dv">1</span>], <span class="fu">aes</span>(<span class="at">x=</span>end_month, <span class="at">fill=</span>portfolio)) <span class="sc">+</span></span>
+<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"6. The Seasonality of Political Execution"</span>)</span>
+<span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 7: Tenure Distribution by Decade (Ridge-esque using density facets)</span></span>
+<span id="cb31-30"><a href="#cb31-30" aria-hidden="true" tabindex="-1"></a>p7 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dat[<span class="sc">!</span><span class="fu">is.na</span>(decade_start)], <span class="fu">aes</span>(<span class="at">x=</span>tenure_years, <span class="at">fill=</span><span class="fu">as.factor</span>(decade_start))) <span class="sc">+</span></span>
+<span id="cb31-31"><a href="#cb31-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">alpha=</span><span class="fl">0.4</span>) <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>portfolio, <span class="at">nrow=</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb31-32"><a href="#cb31-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"7. Shifting Tenure Densities Across Decades"</span>) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"bottom"</span>)</span>
+<span id="cb31-33"><a href="#cb31-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-34"><a href="#cb31-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 8: Hazard of Firing over Time (Event Density)</span></span>
+<span id="cb31-35"><a href="#cb31-35" aria-hidden="true" tabindex="-1"></a>p8 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dat[event<span class="sc">==</span><span class="dv">1</span>], <span class="fu">aes</span>(<span class="at">x=</span>tenure_years)) <span class="sc">+</span></span>
+<span id="cb31-36"><a href="#cb31-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">30</span>, <span class="at">fill=</span><span class="st">"#E69F00"</span>, <span class="at">color=</span><span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb31-37"><a href="#cb31-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"8. Peak Time of Firing (Most die between Yr 1 and 2)"</span>)</span>
+<span id="cb31-38"><a href="#cb31-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-39"><a href="#cb31-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Assemble 8 key plots out of the 20 generated paradigms</span></span>
+<span id="cb31-40"><a href="#cb31-40" aria-hidden="true" tabindex="-1"></a>(p1 <span class="sc">|</span> p2) <span class="sc">/</span> (p3 <span class="sc">|</span> p4) <span class="sc">/</span> (p5 <span class="sc">|</span> p6) <span class="sc">/</span> (p7) <span class="sc">/</span> (p8)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Agent_Data_Scientists_Exploration_files/figure-html/palette-20-plots-1.png" class="img-fluid figure-img" width="1152"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>The triumvirate of Data Scientists has thoroughly exhausted the dataset. The original 95% bug is purged. The true political and biological geometries reveal: 1. <strong>The Firing Rate is ~50-60%</strong>, mostly clustered around the 1.5 - 2-year mark (The “Crisis” point). 2. <strong>May and October</strong> are the deadliest months for a cabinet minister across Europe. 3. The <strong>Defense Ministry</strong> remains the global champion of rapid political ejection (Table 2). 4. <strong>Health and Finance</strong> still claim the crown for literal biological mortality, while rapid firing successfully shields Defense and Interior ministers from death.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

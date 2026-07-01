@@ -1,0 +1,9 @@
+---
+title: "Sig Check"
+format:
+  md:
+    variant: gfm
+---
+```{r}
+source("scripts/check_joker_sigs.R")
+```

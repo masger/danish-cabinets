@@ -1,0 +1,9 @@
+---
+title: "True Firing Data"
+format:
+  md:
+    variant: gfm
+---
+```{r}
+source("scripts/clean_firing_data.R")
+```
